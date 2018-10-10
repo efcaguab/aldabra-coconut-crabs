@@ -10,8 +10,16 @@ f <- lapply(list.files("code", full.names = T), source)
 # SET UP PLAN -------------------------------------------------------------
 
 data_preprocessing_plan <- drake::drake_plan(
-  tb = read_db("./data/raw/CoconutCrab_be.mdb"), 
-  loc = list(lon = 46.2063, lat = -9.3897)
+  tb = read_db(drake::file_in("./data/raw/CoconutCrab_be.mdb")), 
+  loc = list(lon = 46.2063, lat = -9.3897), 
+  wind_tbl = process_wind(tb), 
+  rain_tbl = process_rain(tb),
+  area_tbl = process_area(tb), 
+  collection_event = process_collection_event(tb, wind_tbl, rain_tbl, area_tbl, loc),
+  morph_tbl = process_morph(tb),
+  moult_tbl = process_moult(tb),
+  sex_tbl = process_sex(tb),
+  crab_tbl = process_crab(tb, morph_tbl, moult_tbl, sex_tbl)
 )
 
 project_plan <- rbind(
