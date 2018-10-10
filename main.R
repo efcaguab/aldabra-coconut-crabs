@@ -1,16 +1,22 @@
 # Turn on packrat
-packrat::on(project = ".")
+if(!packrat:::isPackratModeOn()) packrat::on()
+pkgconfig::set_config("drake::strings_in_dots" = "literals")
+
+library(magrittr)
+
+# load functions
+f <- lapply(list.files("code", full.names = T), source)
 
 # SET UP PLAN -------------------------------------------------------------
 
-data_preprocessing_plan <- drake::plan(
-  db = Hmisc::mdb.get("./data/raw/CoconutCrab_be.mdb", tables = NULL)
+data_preprocessing_plan <- drake::drake_plan(
+  tb = read_db("./data/raw/CoconutCrab_be.mdb"), 
+  loc = list(lon = 46.2063, lat = -9.3897)
 )
 
 project_plan <- rbind(
   data_preprocessing_plan
 )
-
 
 # RUN PROJECT --------------------------------------------------------------
 
