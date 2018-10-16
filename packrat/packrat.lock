@@ -342,6 +342,11 @@ Version: 1.0.0
 Hash: dd78d3c916916877f6d319b27534795e
 Requires: R6, RColorBrewer, Rcpp, labeling, munsell, viridisLite
 
+Package: smatr
+Source: CRAN
+Version: 3.4-8
+Hash: a6c30b126ac0077b9eb10348983ec69a
+
 Package: storr
 Source: CRAN
 Version: 1.2.0
