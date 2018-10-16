@@ -13,6 +13,7 @@ data_preprocessing_plan <- drake::drake_plan(
   tb = read_db(drake::file_in("./data/raw/CoconutCrab_be.mdb")), 
   back_path = read_back_path(drake::file_in("./data/raw/back_path.csv")),
   coast_path = read_coast_path(drake::file_in("./data/raw/coastal_path.csv")),
+  picard = rgdal::readOGR(drake::file_in("./data/raw/picard_shapefile/pi.shp")),
   loc = list(lon = 46.2063, lat = -9.3897), 
   wind_tbl = process_wind(tb), 
   rain_tbl = process_rain(tb),
