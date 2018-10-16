@@ -26,7 +26,8 @@ data_preprocessing_plan <- drake::drake_plan(
 )
 
 analyses_plan <- drake::drake_plan(
-  length_weight = get_length_weight_relationship(crab_tbl)
+  length_weight = get_length_weight_relationship(crab_tbl),
+  dist_shore = get_distance_to_shore(picard, back_path, coast_path)
 )
 
 project_plan <- rbind(
