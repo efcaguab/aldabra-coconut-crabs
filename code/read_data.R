@@ -3,6 +3,21 @@ read_db <- function(x){
     lapply(dplyr::tbl_df) 
 }
 
+# read and preprocess file with sections and coordinates of back path
+read_back_path <- function(x){
+  read.csv(x) %>%
+    dplyr::select(X, Y, name)
+}
+
+# read and preprocess file with sections and coordinates of coastal path
+read_coast_path <- function(x){
+  read.csv(x) %>%
+    dplyr::select(X, Y, name) %>%
+    dplyr::mutate(name = as.character(name), 
+                  name = stringr::str_extract(name, "([0-9])+"),
+                  name = as.numeric(name))
+}
+
 process_wind <- function(tb){
   tb$tblWind %>%
     dplyr::rename(wind_id = ID,
