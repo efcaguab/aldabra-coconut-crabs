@@ -1,3 +1,4 @@
+# read database
 read_db <- function(x){
   Hmisc::mdb.get(x, tables = NULL) %>%
     lapply(dplyr::tbl_df) 
@@ -6,7 +7,8 @@ read_db <- function(x){
 # read and preprocess file with sections and coordinates of back path
 read_back_path <- function(x){
   read.csv(x) %>%
-    dplyr::select(X, Y, name)
+    dplyr::select(X, Y, name) %>%
+    get_mid_section()
 }
 
 # read and preprocess file with sections and coordinates of coastal path
@@ -15,7 +17,30 @@ read_coast_path <- function(x){
     dplyr::select(X, Y, name) %>%
     dplyr::mutate(name = as.character(name), 
                   name = stringr::str_extract(name, "([0-9])+"),
-                  name = as.numeric(name))
+                  name = as.numeric(name)) %>%
+    get_mid_section()
+}
+
+# calculate mid-section locations of transects
+get_mid_section <- function(x)
+{ 
+  x %>%
+    dplyr::mutate(length = tr_length(.)) %>%
+    dplyr::arrange(name) %>%
+    dplyr::mutate(X = (X + dplyr::lag(X))/2,
+                  Y = (Y + dplyr::lag(Y))/2) %>%
+    dplyr::filter(!is.na(X)) %>%
+    dplyr::rename(locality = name)
+}
+
+# transect length
+tr_length <- function(x) {
+  l <- vector(mode = "double", length = nrow(x))
+  for(i in 2:nrow(x)){
+    l[i] <- geosphere::distVincentyEllipsoid(c(x$X[i], x$Y[i]), 
+                                             c(x$X[i-1], x$Y[i-1]))
+  }
+  l
 }
 
 process_wind <- function(tb){
