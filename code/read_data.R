@@ -1,8 +1,5 @@
-# read database
-read_db <- function(x){
-  Hmisc::mdb.get(x, tables = NULL) %>%
-    lapply(dplyr::tbl_df) 
-}
+
+# Spatial data ------------------------------------------------------------
 
 # read and preprocess file with sections and coordinates of back path
 read_back_path <- function(x){
@@ -41,6 +38,14 @@ tr_length <- function(x) {
                                              c(x$X[i-1], x$Y[i-1]))
   }
   l
+}
+
+# Crab data ---------------------------------------------------------------
+
+# read database
+read_db <- function(x){
+  Hmisc::mdb.get(x, tables = NULL) %>%
+    lapply(dplyr::tbl_df) 
 }
 
 process_wind <- function(tb){
