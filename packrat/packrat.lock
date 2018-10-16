@@ -338,6 +338,12 @@ Version: 1.4.3
 Hash: f50582f9059ab381cd38dd02697d8a88
 Requires: Rcpp, plyr, stringr
 
+Package: rgdal
+Source: CRAN
+Version: 1.3-4
+Hash: c2ab24d0a69d6b98794643c67bda943a
+Requires: sp
+
 Package: rlang
 Source: CRAN
 Version: 0.2.2
