@@ -22,8 +22,13 @@ data_preprocessing_plan <- drake::drake_plan(
   crab_tbl = process_crab(tb, morph_tbl, moult_tbl, sex_tbl)
 )
 
+analyses_plan <- drake::drake_plan(
+  length_weight = get_length_weight_relationship(crab_tbl)
+)
+
 project_plan <- rbind(
-  data_preprocessing_plan
+  data_preprocessing_plan, 
+  analyses_plan
 )
 
 # RUN PROJECT --------------------------------------------------------------
