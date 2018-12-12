@@ -30,7 +30,8 @@ analyses_plan <- drake::drake_plan(
   dist_shore = get_distance_to_shore(picard, back_path, coast_path), 
   crab_master_df = get_crab_master_df(crab_tbl, collection_event, dist_shore),
   sex_ratio_model = model_sex_ratios(crab_master_df), 
-  size_models = model_size(crab_master_df)
+  size_models = model_size(crab_master_df), 
+  count_models = model_counts(crab_master_df, collection_event, dist_shore)
 )
 
 project_plan <- rbind(
