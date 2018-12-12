@@ -26,3 +26,30 @@ model_sex_ratios <- function(crab_master_df, n = 100){
   list(mod = sex_model, 
        pred = sex_model_plot)
 }
+
+model_size <- function(crab_master_df, n = 362/2){
+  crab_master_df %<>%
+    dplyr::filter(!(area == "CP" & as.numeric(locality) <= 12))
+  
+  sexes <- c("female", "male")
+  
+  size_models <- plyr::llply(sexes, function(x){
+    data <- dplyr::filter(crab_master_df, sex == x)
+    mgcv::gam(t_length ~ 
+                # s(as.numeric(date), k = 5) +
+                s(month, bs = c("cc"), k = 12) +
+                s(dist_shore, k = 3, bs = "tp") + 
+                ti(month, dist_shore, k = c(12, 3), bs = c("cc", "tp")) +
+                s(moon_ph, bs = "cc", k = 5),
+              # s(moon_ph, bs = "cc", k = 3, by = dist_shore_l) +
+              # rain, 
+              data = data, 
+              gamma = 1.4)
+  })
+  
+  n <- 362/2
+  size_model_plots <- lapply(size_models, plot, pers = T, n = n, n2 = n, pages = 1)
+  
+  list(mod = size_models, 
+       pred = size_model_plots)
+}

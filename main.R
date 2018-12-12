@@ -27,7 +27,10 @@ data_preprocessing_plan <- drake::drake_plan(
 
 analyses_plan <- drake::drake_plan(
   length_weight = get_length_weight_relationship(crab_tbl),
-  dist_shore = get_distance_to_shore(picard, back_path, coast_path)
+  dist_shore = get_distance_to_shore(picard, back_path, coast_path), 
+  crab_master_df = get_crab_master_df(crab_tbl, collection_event, dist_shore),
+  sex_ratio_model = model_sex_ratios(crab_master_df), 
+  size_models = model_size(crab_master_df)
 )
 
 project_plan <- rbind(
