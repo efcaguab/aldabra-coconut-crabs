@@ -198,3 +198,16 @@ process_crab <- function(tb, morph, moult, sex){
   # remove 1mm crab...
   dplyr::filter(t_length > 1)
 }
+
+# habitat data ------------------------------------------------------------
+
+read_habitat <- function(cp_file, bp_file){
+  CP <- readr::read_csv(cp_file, col_types = "nnnnnnnnnnn") %>% 
+    dplyr::mutate(area = "CP")
+  
+  BP <- readr::read_csv(bp_file, col_types = "nnnnnnnnnnn") %>%
+    dplyr::mutate(area = "BP")
+  
+   dplyr::bind_rows(CP, BP) %>% 
+    dplyr::mutate(locality = as.character(locality))
+}

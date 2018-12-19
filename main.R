@@ -22,7 +22,8 @@ data_preprocessing_plan <- drake::drake_plan(
   morph_tbl = process_morph(tb),
   moult_tbl = process_moult(tb),
   sex_tbl = process_sex(tb),
-  crab_tbl = process_crab(tb, morph_tbl, moult_tbl, sex_tbl)
+  crab_tbl = process_crab(tb, morph_tbl, moult_tbl, sex_tbl),
+  habitat = read_habitat(drake::file_in("data/raw/habitat_back_path.csv"), drake::file_in("data/raw/habitat_coastal_path.csv"))
 )
 
 analyses_plan <- drake::drake_plan(
