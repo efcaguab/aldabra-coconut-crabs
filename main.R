@@ -31,7 +31,9 @@ analyses_plan <- drake::drake_plan(
   crab_master_df = get_crab_master_df(crab_tbl, collection_event, dist_shore),
   sex_ratio_model = model_sex_ratios(crab_master_df), 
   size_models = model_size(crab_master_df), 
-  count_models = model_counts(crab_master_df, collection_event, dist_shore)
+  count_models = model_counts(crab_master_df, collection_event, dist_shore), 
+  moult_models = model_moults(crab_master_df, collection_event, dist_shore), 
+  reproduction_models = model_reproduction(crab_tbl, collection_event)
 )
 
 project_plan <- rbind(

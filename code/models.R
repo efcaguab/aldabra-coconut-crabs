@@ -126,3 +126,32 @@ model_moults <- function(crab_tbl, collection_event, dist_shore, n = 362){
   list(mod = moult_models, 
        pred = moult_model_plots) 
 }
+
+model_reproduction <- function(crab_tbl, collection_event){
+  cc_m <- crab_tbl %>%
+    dplyr::filter(sex == "female") %>%
+    dplyr::mutate(egg = grepl("gg", comments) & !grepl("Dragging", comments)) %>%
+    dplyr::group_by(col_id) %>%
+    dplyr::summarise(egg = any(egg)) %>%
+    dplyr::full_join(collection_event) %>%
+    dplyr::mutate(month = lubridate::yday(date)) %>%
+    dplyr::filter(area %in% c("BP", "CP"))
+  
+  m_e <- mgcv::gam(egg ~ 
+                     # s(as.numeric(date), k = 5) +
+                     # ti(month, dist_shore, bs = c("cc", "cr"), k = c(12, 3)) +
+                     s(month, k = 12, bs = "cc") +
+                     # s(dist_shore, k = 2, bs = "cr") +
+                     s(moon_ph, bs = "cc", k = 3), 
+                   data = cc_m, 
+                   family = "binomial", 
+                   gamma = 1.4)
+  
+  
+  n <- 362
+  m_e_p <- plot(m_e, pers = T, n = n, n2 = n, pages = 1)
+  
+  list(mod = m_e, 
+       pred = m_e_p) 
+}
+
