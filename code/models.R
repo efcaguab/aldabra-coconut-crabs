@@ -91,3 +91,38 @@ model_counts <- function(crab_master_df, collection_event, dist_shore, n = 362/2
   list(mod = count_models, 
        pred = count_model_plots) 
 }
+
+model_moults <- function(crab_tbl, collection_event, dist_shore, n = 362){
+  
+  sexes <- c("female", "male")
+  
+  moult_models <- sexes %>%
+    plyr::llply(function(x){
+      data <- crab_tbl %>%
+        dplyr::filter(t_length > 30, 
+                      sex == x) %>%
+        dplyr::group_by(col_id) %>% 
+        dplyr::full_join(collection_event) %>%
+        dplyr::mutate(month = lubridate::yday(date)) %>%
+        dplyr::filter(area %in% c("BP", "CP")) %>%
+        dplyr::filter(!is.na(locality)) %>%
+        dplyr::full_join(dist_shore) %>%
+        dplyr::filter(!(area == "CP" & as.numeric(locality) <= 12),
+                      date > as.Date("2010-01-01"))
+      
+      mgcv::gam(moult ~ 
+                  # s(as.numeric(date), k = 5) +
+                  # ti(month, dist_shore, bs = c("cc", "cr"), k = c(5, 3)) +
+                  # s(dist_shore, k = 2, bs = "cr") +
+                  # s(moon_ph, bs = "cc", k = 3) +
+                  s(month, k = 12, bs = "cc"),
+                data = data , 
+                gamma = 1.4)
+    })
+  
+  moult_model_plots <- lapply(moult_models, plot, pers = T, n = n, n2 = n, pages = 1)
+  
+  
+  list(mod = moult_models, 
+       pred = moult_model_plots) 
+}
