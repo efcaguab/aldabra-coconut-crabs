@@ -34,7 +34,8 @@ analyses_plan <- drake::drake_plan(
   size_models = model_size(crab_master_df), 
   count_models = model_counts(crab_master_df, collection_event, dist_shore), 
   moult_models = model_moults(crab_master_df, collection_event, dist_shore), 
-  reproduction_models = model_reproduction(crab_tbl, collection_event)
+  reproduction_models = model_reproduction(crab_tbl, collection_event), 
+  habitat_distance = dplyr::inner_join(habitat, dist_shore)
 )
 
 project_plan <- rbind(
