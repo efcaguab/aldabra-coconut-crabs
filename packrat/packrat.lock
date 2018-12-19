@@ -1,6 +1,6 @@
 PackratFormat: 1.4
 PackratVersion: 0.4.9.3
-RVersion: 3.5.1
+RVersion: 3.4.4
 Repos: CRAN=https://cran.rstudio.com/
 
 Package: BH
@@ -51,6 +51,12 @@ Package: Rcpp
 Source: CRAN
 Version: 0.12.19
 Hash: fdff9c3aa69adac28cd5c45cd250c9da
+
+Package: RcppArmadillo
+Source: CRAN
+Version: 0.9.200.5.0
+Hash: 0e1d99254c99747c21247744d7e38579
+Requires: Rcpp
 
 Package: acepack
 Source: CRAN
@@ -260,6 +266,12 @@ Source: CRAN
 Version: 0.7.0
 Hash: f5e0d09f4e42d749ae0f893cff1817b6
 
+Package: lubridate
+Source: CRAN
+Version: 1.7.4
+Hash: c02a71ca5738d52e086613b4c48ab9d6
+Requires: Rcpp, stringr
+
 Package: magrittr
 Source: CRAN
 Version: 1.5
@@ -331,6 +343,18 @@ Source: CRAN
 Version: 0.2.5
 Hash: 8b0c16db10c7e20b70cd37779a673a8b
 Requires: magrittr, rlang, tibble
+
+Package: raster
+Source: CRAN
+Version: 2.7-15
+Hash: 1db7b642f0ccf70c0bf25c64f5e666f1
+Requires: Rcpp, sp
+
+Package: reshape
+Source: CRAN
+Version: 0.8.8
+Hash: 77b6a96819c0a99bbfc141526b60ce5a
+Requires: plyr
 
 Package: reshape2
 Source: CRAN
@@ -404,6 +428,12 @@ Source: CRAN
 Version: 0.2.4
 Hash: 740eee0076ff08393a3f2df26e7566ab
 Requires: Rcpp, glue, purrr, rlang
+
+Package: unmarked
+Source: CRAN
+Version: 0.12-2
+Hash: 271e3b9a4733b93b8dc6f7dfd6f02511
+Requires: Rcpp, RcppArmadillo, plyr, raster, reshape
 
 Package: utf8
 Source: CRAN
