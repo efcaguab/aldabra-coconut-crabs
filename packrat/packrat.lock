@@ -101,6 +101,11 @@ Version: 1.0.1
 Hash: a742a3229dbf7085c3a737af10e5065b
 Requires: assertthat, crayon
 
+Package: clipr
+Source: CRAN
+Version: 0.4.1
+Hash: caf20ae357bfa2ed50e0e7db267f69ce
+
 Package: colorspace
 Source: CRAN
 Version: 1.3-2
@@ -208,6 +213,12 @@ Package: highr
 Source: CRAN
 Version: 0.7
 Hash: 20757f5c393ed0ecf96c9e8e6d8d514c
+
+Package: hms
+Source: CRAN
+Version: 0.4.2
+Hash: b4096a4f6a6736138e9a825c2baaacf0
+Requires: pkgconfig, rlang
 
 Package: htmlTable
 Source: CRAN
@@ -349,6 +360,12 @@ Source: CRAN
 Version: 2.7-15
 Hash: 1db7b642f0ccf70c0bf25c64f5e666f1
 Requires: Rcpp, sp
+
+Package: readr
+Source: CRAN
+Version: 1.3.0
+Hash: 25b861b6f5f568446d7c8a9c60e325e0
+Requires: BH, R6, Rcpp, clipr, hms, tibble
 
 Package: reshape
 Source: CRAN
