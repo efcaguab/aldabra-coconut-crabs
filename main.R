@@ -26,7 +26,13 @@ data_preprocessing_plan <- drake::drake_plan(
   habitat = read_habitat(drake::file_in("data/raw/habitat_back_path.csv"), drake::file_in("data/raw/habitat_coastal_path.csv"))
 )
 
-analyses_plan <- drake::drake_plan(
+habitat_plan <- drake::drake_plan(
+  habitat_distance = dplyr::inner_join(habitat, dist_shore), 
+  habitat_pca = get_habitat_pca(habitat_distance), 
+  habitat_pca_fig = plot_habitat_pca(habitat_pca, habitat_distance)
+)
+
+models_plan <- drake::drake_plan(
   length_weight = get_length_weight_relationship(crab_tbl),
   dist_shore = get_distance_to_shore(picard, back_path, coast_path), 
   crab_master_df = get_crab_master_df(crab_tbl, collection_event, dist_shore),
@@ -40,7 +46,8 @@ analyses_plan <- drake::drake_plan(
 
 project_plan <- rbind(
   data_preprocessing_plan, 
-  analyses_plan
+  habitat_plan,
+  models_plan
 )
 
 # RUN PROJECT --------------------------------------------------------------
