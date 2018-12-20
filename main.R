@@ -29,7 +29,8 @@ data_preprocessing_plan <- drake::drake_plan(
 habitat_plan <- drake::drake_plan(
   habitat_distance = dplyr::inner_join(habitat, dist_shore), 
   habitat_pca = get_habitat_pca(habitat_distance), 
-  habitat_pca_fig = plot_habitat_pca(habitat_pca, habitat_distance)
+  habitat_pca_fig = plot_habitat_pca(habitat_pca, habitat_distance), 
+  habitat_pca_components = dplyr::bind_cols(habitat_distance, dplyr::as_data_frame(habitat_pca$x))
 )
 
 models_plan <- drake::drake_plan(
