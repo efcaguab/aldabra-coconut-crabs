@@ -111,6 +111,12 @@ Source: CRAN
 Version: 1.3-2
 Hash: 0bf8618b585fa98eb23414cd3ab95118
 
+Package: cowplot
+Source: CRAN
+Version: 0.9.3
+Hash: c9b93ad25628bdaf66e7a53b4ebe5510
+Requires: ggplot2, gtable, plyr, scales
+
 Package: crayon
 Source: CRAN
 Version: 1.3.4
@@ -152,6 +158,12 @@ Source: CRAN
 Version: 0.4.0
 Hash: f147621f72b561485bfffcae78c4f5d5
 
+Package: foreach
+Source: CRAN
+Version: 1.4.4
+Hash: 4df5ab2c8c35382dacab75d414da6748
+Requires: iterators
+
 Package: formatR
 Source: CRAN
 Version: 1.5
@@ -174,6 +186,12 @@ Source: CRAN
 Version: 1.5-7
 Hash: 006396aaed8f45b60f39b9a31537859d
 Requires: sp
+
+Package: ggfortify
+Source: CRAN
+Version: 0.4.5
+Hash: 51239d19d5b46f7ab9f29c6a706aa8b9
+Requires: dplyr, ggplot2, gridExtra, scales, stringr, tibble, tidyr
 
 Package: ggplot2
 Source: CRAN
@@ -244,6 +262,11 @@ Source: CRAN
 Version: 1.2.2
 Hash: 1e95612a0034372c6a387fbeff90992f
 Requires: magrittr, pkgconfig
+
+Package: iterators
+Source: CRAN
+Version: 1.0.10
+Hash: 9f8af91e4a3487a282d7dea67513e519
 
 Package: jsonlite
 Source: CRAN
@@ -440,10 +463,17 @@ Version: 1.4.2
 Hash: 83895360ce4f8d2ce92eee00526b5b0b
 Requires: cli, crayon, pillar, rlang
 
+Package: tidyr
+Source: CRAN
+Version: 0.8.2
+Hash: 6620dc3d1459df12881193f6b81b305b
+Requires: Rcpp, dplyr, glue, magrittr, purrr, rlang, stringi, tibble,
+    tidyselect
+
 Package: tidyselect
 Source: CRAN
-Version: 0.2.4
-Hash: 740eee0076ff08393a3f2df26e7566ab
+Version: 0.2.5
+Hash: e8f4a27878a2753b69376c7121c4bb0a
 Requires: Rcpp, glue, purrr, rlang
 
 Package: unmarked
