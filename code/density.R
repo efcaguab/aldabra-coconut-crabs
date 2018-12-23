@@ -211,3 +211,31 @@ plot_abundance_from_density_model <- function(abundance_per_day){
   
   list(p1, p2)
 }
+
+model_density <- function(abundance_per_day, collection_event){
+  
+  dens <- abundance_per_day
+  col_event <- collection_event
+  
+  col_event_date <- col_event %>%
+    # fi(!is.na(rain)) %>%
+    dplyr::group_by(date) %>%
+    dplyr::mutate(moon_ph = mean(moon_ph),
+       rain = rain[1])
+  
+  m_d_d <- dens %>%
+    dplyr::mutate(date = as.Date(date),
+       yday = lubridate::yday(date),
+       year = lubridate::year(date)) %>%
+    dplyr::inner_join(col_event_date)
+  
+  m_d <- mgcv::gam(density ~ s(yday, bs = "cc")  + s(as.numeric(date), k = 4), data = m_d_d)
+  
+  # summary(m_d)
+  n <- 362
+  m_d_p <- plot(m_d, n = n, pages = 1)
+  
+  
+  list(mod = m_d, 
+       pred = m_d_p) 
+}
