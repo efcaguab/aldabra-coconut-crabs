@@ -111,3 +111,26 @@ determine_best_detectability_abundance_model <- function(detectability_abundance
   
   list(habitat_abundance, detectability_function)
 }
+
+calculate_abundance_per_day <- function(detectability_abundance_model){
+  
+  ab <- detectability_abundance_model$abu8 %>%
+    lapply(function(x) {
+      xx <- x@estimates@estimates$state
+      ests <- xx@estimates
+      SEs <- unmarked::SE(xx)
+      Z <- ests/SEs
+      p <- 2 * pnorm(abs(Z), lower.tail = FALSE)
+      # print(c(ests, SEs, Z,p))
+      if(!is.na(p)){
+        if(p < 0.05){
+          # print(backTransform(x, type = "state")@estimate)
+          return(unmarked::backTransform(x, type = "state")@estimate)
+        }
+      } else return(NA)
+    }) %>% unlist %>% as.data.frame.vector() %>%
+    dplyr::add_rownames()
+  names(ab) <- c("date", "density")
+  
+  return(ab)
+}
