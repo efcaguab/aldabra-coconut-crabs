@@ -92,3 +92,22 @@ model_detectability_abundance <- function(crab_tbl, collection_event, habitat_pc
        abu11 = abu11)
   
 }
+
+
+determine_best_detectability_abundance_model <- function(detectability_abundance_model){
+  require(foreach)
+  attach(detectability_abundance_model)
+  
+  habitat_abundance <- foreach (i = 1:length(abu1), .combine = c) %do% {
+    if (class(abu0[[i]]) == "unmarkedFitDS"){
+      which.min(c(abu1[[i]]@AIC, abu2[[i]]@AIC, abu3[[i]]@AIC, abu4[[i]]@AIC,
+                  abu5[[i]]@AIC, abu6[[i]]@AIC, abu7[[i]]@AIC, abu8[[i]]@AIC))
+    }
+  } %>% table
+  
+  detectability_function <- foreach (i = 1:length(abu1), .combine = c) %do% {
+    which.min(c(abu8[[i]]@AIC, abu9[[i]]@AIC, abu10[[i]]@AIC, abu11[[i]]@AIC))
+  } %>% table
+  
+  list(habitat_abundance, detectability_function)
+}
