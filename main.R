@@ -37,18 +37,35 @@ models_plan <- drake::drake_plan(
   length_weight = get_length_weight_relationship(crab_tbl),
   dist_shore = get_distance_to_shore(picard, back_path, coast_path), 
   crab_master_df = get_crab_master_df(crab_tbl, collection_event, dist_shore),
-  sex_ratio_model = model_sex_ratios(crab_master_df), 
+  sex_ratio_models = model_sex_ratios(crab_master_df), 
   size_models = model_size(crab_master_df), 
   count_models = model_counts(crab_master_df, collection_event, dist_shore), 
   moult_models = model_moults(crab_master_df, collection_event, dist_shore), 
-  reproduction_models = model_reproduction(crab_tbl, collection_event), 
-  habitat_distance = dplyr::inner_join(habitat, dist_shore)
+  reproduction_models = model_reproduction(crab_tbl, collection_event)
+)
+
+density_plan <- drake::drake_plan(
+  detectability_abundance_model = model_detectability_abundance(crab_tbl, collection_event, habitat_pca_components, dist_shore), 
+  # best model does not include environmental coovariates and has a halfnormal detection function (abu9)
+  best_detectability_abundance_model = determine_best_detectability_abundance_model(detectability_abundance_model), 
+  abundance_per_day = calculate_abundance_per_day(detectability_abundance_model), 
+  env_effect_plots = check_env_effect_detectability(detectability_abundance_model), 
+  abundance_from_density_model_plot = plot_abundance_from_density_model(abundance_per_day), 
+  density_models = model_density(abundance_per_day, collection_event), 
+  density_fig = plot_density(density_models)
+)
+
+save_figures_plan <- drake::drake_plan(
+  ggplot2::ggsave(drake::file_out("figs/habitat-pca.pdf"), habitat_pca_fig, width = 4.7, height = 3.3, scale = 1.5),
+  ggplot2::ggsave(drake::file_out("figs/density.pdf"), density_fig, width = 3.18, height = 4.5, scale = 1)
 )
 
 project_plan <- rbind(
   data_preprocessing_plan, 
   habitat_plan,
-  models_plan
+  models_plan, 
+  density_plan,
+  save_figures_plan
 )
 
 # RUN PROJECT --------------------------------------------------------------
@@ -56,3 +73,4 @@ project_plan <- rbind(
 project_config <- drake::drake_config(plan = project_plan)
 
 drake::make(project_plan)
+

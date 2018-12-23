@@ -239,3 +239,43 @@ model_density <- function(abundance_per_day, collection_event){
   list(mod = m_d, 
        pred = m_d_p) 
 }
+
+plot_density <- function(density_models){
+  require(ggplot2)
+  m_d <- density_models
+  ylim <- c(10,44)
+  intercept_d <- c(m_d[[1]]$coefficients[1])
+  pd1 <- extract_fit(m_d[[2]][[1]]) %>%
+    dplyr::mutate(fit = fit + intercept_d,
+       fitmin = fitmin + intercept_d,
+       fitmax = fitmax + intercept_d,
+       x = as.Date("2016-01-01") + x) %>%
+    ggplot(aes(x = x, y = fit)) +
+    # geom_point(data = m_d[[1]]$model, aes(y = density, x = as.Date("2016-01-01") + yday), size = 1, shape = 21, alpha = 0.5) + 
+    geom_hline(yintercept = intercept_d, linetype = 2, colour = "grey25", size = 0.25) +
+    geom_ribbon(aes(ymin = fitmin, ymax = fitmax), alpha = 0.25, fill = "grey50") +
+    geom_line() + 
+    scale_x_date(date_labels = "%b", expand = c(0,0), name = "month", date_breaks = "2 month") +
+    scale_y_continuous(limits = ylim, name = "crabs / hectare") +
+    pub_theme() +
+    labs(title = "B. Seasonality", 
+         subtitle = "Crabs are more often encountered between Feb.-Jun.")
+  
+  pd2 <- extract_fit(m_d[[2]][[2]]) %>%
+    dplyr::mutate(fit = fit + intercept_d,
+       fitmin = fitmin + intercept_d,
+       fitmax = fitmax + intercept_d,
+       x = as.Date("1970-01-01") + x) %>%
+    ggplot(aes(x = x, y = fit)) +
+    geom_hline(yintercept = intercept_d, linetype = 2, colour = "grey25", size = 0.25) +
+    # geom_point(data = m_d[[1]]$model, aes(y = density, x = as.Date("2016-01-01") + yday), size = 1, shape = 21, alpha = 0.5) + 
+    geom_ribbon(aes(ymin = fitmin, ymax = fitmax), alpha = 0.25, fill = "grey50") +
+    geom_line() + 
+    scale_x_date(expand = c(0,0), name = "date") +
+    scale_y_continuous(limits = ylim, name = "crabs / hectare") +
+    pub_theme() +
+    labs(title = "A. Long-term trends", 
+         subtitle = "Crab density has been stable over the years")
+  
+  cowplot::plot_grid(pd2, pd1, ncol = 1, align = "hv")
+}
