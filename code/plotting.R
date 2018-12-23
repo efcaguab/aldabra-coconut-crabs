@@ -29,3 +29,20 @@ extract_fit <- function(y, rename = NULL){
   
   return(d)
 }
+
+pub_theme <- function(){
+  theme_bw() +
+    theme(strip.background = element_blank(),
+          plot.margin = grid::unit(c(0.4,0.4, 0.4, 0.4), "lines"),
+          text = element_text(size = 8),
+          legend.title = element_text(size = 14),
+          plot.title = element_text(face = "bold", size = 8, margin = margin()),
+          plot.subtitle = element_text(size = 8),
+          panel.grid = element_blank(),
+          legend.position = c(0,0),
+          legend.direction = "horizontal",
+          legend.key.size = grid::unit(0.7, "lines"),
+          legend.margin = grid::unit(0, "lines"),
+          legend.justification = c(0,0),
+          legend.background = element_rect(fill = alpha('white', 0.5)))
+}
