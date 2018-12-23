@@ -194,3 +194,20 @@ check_env_effect_detectability <- function(detectability_abundance_model){
        det_pvalue_moonph = det_pvalue_moonph, 
        abu_pvalue_hist = abu_pvalue_hist)
 }
+
+plot_abundance_from_density_model <- function(abundance_per_day){
+  require(ggplot2)
+  p1 <- abundance_per_day %>%
+    dplyr::mutate(date = as.Date(date)) %>%
+    ggplot(aes(x = date, y = density)) +
+    geom_smooth(method = "glm", method.args = list(family = "poisson")) +
+    geom_point() + ylim(c(0, 125))
+
+  p2 <- abundance_per_day %>%
+    dplyr::mutate(date = as.Date(date),
+                  yday = lubridate::yday(date)) %>%
+    ggplot(aes(x = yday, y = density)) +
+    geom_point() + geom_smooth()
+  
+  list(p1, p2)
+}
