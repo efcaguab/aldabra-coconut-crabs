@@ -134,3 +134,63 @@ calculate_abundance_per_day <- function(detectability_abundance_model){
   
   return(ab)
 }
+
+check_env_effect_detectability <- function(detectability_abundance_model){
+  library(ggplot2)
+  attach(detectability_abundance_model)
+  # no significant effect of environment on the detection estimates:
+  
+  extract_distance_coeff <- function(y, which = "det"){
+    plyr::ldply(y, function(x){
+      if (class(x) == "unmarkedFitDS"){
+        e <- x@estimates@estimates[[which]]@estimates %>% as.data.frame() %>%
+          dplyr::add_rownames()
+        names(e) <- c("coeficient", "estimate")
+        e
+      }
+    })
+  }
+  det_pvalue_hist <- abu0 %>%
+    extract_distance_coeff() %>%
+    dplyr::filter(coeficient != "sigma(Intercept)") %>%
+    ggplot(aes(x = plogis(estimate))) +
+    geom_density() + facet_wrap(~coeficient) +
+    xlab("p-value") + theme_bw()
+  
+  # detection estimates 
+  # ggsave("./paper/supp_figures/detection-coovariates.pdf", width = 4.7,height = 1.65, scale = 1.5)
+  
+  
+  det_pvalue_yday <- abu0 %>%
+    extract_distance_coeff() %>%
+    dplyr::mutate(date = as.Date(date),
+       yday = lubridate::yday(date)) %>%
+    ggplot(aes(x = yday, y = plogis(estimate))) +
+    geom_point() + facet_wrap(~coeficient) + geom_smooth()
+  
+
+  det_pvalue_moonph <- abu0 %>%
+    extract_distance_coeff() %>%
+    dplyr::mutate(date = as.Date(date),
+       date_utc = as.POSIXct(as.POSIXlt(date, tz = "UTC")),
+       moon_ph = oce::moonAngle(date_utc, lon = 46.2, lat = -9.4)$phase,
+       moon_ph = moon_ph - floor(moon_ph)) %>%
+    ggplot(aes(x = moon_ph, y = plogis(estimate))) +
+    geom_point() + facet_wrap(~coeficient) + geom_smooth()
+  
+  # no significant effect of environment on the abundance estimates:
+  abu_pvalue_hist <- abu0 %>%
+    extract_distance_coeff("state") %>%
+    dplyr::filter(coeficient != "(Intercept)") %>%
+    ggplot(aes(x = plogis(estimate))) +
+    geom_density() + facet_wrap(~coeficient) +
+    xlab("p-value") + theme_bw()
+  
+  # detection estimates 
+  # ggsave("./paper/supp_figures/density-coovariates.pdf", width = 4.7,height = 1.65, scale = 1.5)
+  
+  list(det_pvalue_hist = det_pvalue_hist, 
+       det_pvalue_yday = det_pvalue_yday, 
+       det_pvalue_moonph = det_pvalue_moonph, 
+       abu_pvalue_hist = abu_pvalue_hist)
+}
