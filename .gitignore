@@ -41,3 +41,5 @@ packrat/lib*/
 *.DS_Store
 
 Rplots\.pdf
+
+\.drake/
