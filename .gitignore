@@ -39,3 +39,5 @@ packrat/lib*/
 
 # Mac files
 *.DS_Store
+
+Rplots\.pdf
