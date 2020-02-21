@@ -216,14 +216,12 @@ read_habitat_simple <- function(habitat_file){
   
   readr::read_csv(habitat_file) %>% 
     dplyr::rename(locality = TransectSectionNumber, 
-                  area = TransectCode) %>%
-    dplyr::mutate(locality = as.integer(locality), 
+                  area = TransectCode, 
+                  habitat = VegType) %>%
+    dplyr::mutate(locality = as.character(locality), 
                   area = dplyr::case_when(
                     area == "PBC" ~ "CP", 
                     area == "PDB" ~ "BP", 
                     TRUE ~ NA_character_)) %>%
-    dplyr::select(VegType, locality, area) %>%
-    dplyr::mutate(spread_dummy = 100) %>%
-    tidyr::spread(key = VegType, spread_dummy, fill = 0) %>%
-    dplyr::arrange(area)
+    dplyr::select(habitat, locality, area) 
 }
