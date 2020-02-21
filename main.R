@@ -21,7 +21,8 @@ data_preprocessing_plan <- drake_plan(
   moult_tbl = process_moult(tb),
   sex_tbl = process_sex(tb),
   crab_tbl = process_crab(tb, morph_tbl, moult_tbl, sex_tbl),
-  habitat = read_habitat(file_in("data/raw/habitat_back_path.csv"), file_in("data/raw/habitat_coastal_path.csv"))
+  habitat = read_habitat(file_in("data/raw/habitat_back_path.csv"), file_in("data/raw/habitat_coastal_path.csv")),
+  habitat_simple = read_habitat_simple("data/raw/habitat_types_picard.csv")
 )
 
 habitat_plan <- drake_plan(

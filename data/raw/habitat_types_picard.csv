@@ -1,0 +1,81 @@
+﻿VegType,TransectSectionNumber,SectionAreaMetresSq,TransectCode,Transect Name,TransectSectionCode,Notes,Island
+CAC,1,1000,PBC,Station Coastal Coconut Plantation,Redundant section - PBC01,Redundant as of July 2017,Picard
+CAC,2,1000,PBC,Station Coastal Coconut Plantation,Redundant section - PBC02,Redundant as of July 2017,Picard
+CAC,3,1000,PBC,Station Coastal Coconut Plantation,Redundant section - PBC03,Redundant as of July 2017,Picard
+CAC,4,1000,PBC,Station Coastal Coconut Plantation,Redundant section - PBC04,Redundant as of July 2017,Picard
+CAC,5,1000,PBC,Station Coastal Coconut Plantation,Redundant section - PBC05,Redundant as of July 2017,Picard
+CAC,6,1000,PBC,Station Coastal Coconut Plantation,Redundant section - PBC06,Redundant as of July 2017,Picard
+CAC,7,1000,PBC,Station Coastal Coconut Plantation,Redundant section - PBC07,Redundant as of July 2017,Picard
+CAC,8,1000,PBC,Station Coastal Coconut Plantation,Redundant section - PBC08,Redundant as of July 2017,Picard
+CAC,9,1000,PBC,Station Coastal Coconut Plantation,Redundant section - PBC09,Redundant as of July 2017,Picard
+CAC,10,1000,PBC,Station Coastal Coconut Plantation,Redundant section - PBC10,Redundant as of July 2017,Picard
+CAC,11,1000,PBC,Station Coastal Coconut Plantation,Redundant section - PBC11,Redundant as of July 2017,Picard
+CAC,12,1000,PBC,Station Coastal Coconut Plantation,Redundant section - PBC12,Redundant as of July 2017,Picard
+CAC,13,1000,PBC,Station Coastal Coconut Plantation,Redundant section - PBC13,Redundant as of July 2017,Picard
+CAC,14,1000,PBC,Station Coastal Coconut Plantation,Redundant section - PBC14,Redundant as of July 2017,Picard
+CAC,15,1000,PBC,Station Coastal Coconut Plantation,Redundant section - PBC15,Redundant as of July 2017,Picard
+CAC,16,1000,PBC,Station Coastal Coconut Plantation,Redundant section - PBC16,Redundant as of July 2017,Picard
+CAC,17,1000,PBC,Station Coastal Coconut Plantation,Redundant section - PBC17,Redundant as of July 2017,Picard
+CAC,18,1000,PBC,Station Coastal Coconut Plantation,Redundant section - PBC18,Redundant as of July 2017,Picard
+CAC,19,1000,PBC,Station Coastal Coconut Plantation,Redundant section - PBC19,Redundant as of July 2017,Picard
+CAC,20,1000,PBC,Station Coastal Coconut Plantation,Redundant section - PBC20,Redundant as of July 2017,Picard
+CAC,21,1000,PBC,Station Coastal Coconut Plantation,Redundant section - PBC21,Redundant as of July 2017,Picard
+CAC,22,1000,PBC,Station Coastal Coconut Plantation,Redundant section - PBC22,Redundant as of July 2017,Picard
+CAC,23,1000,PBC,Station Coastal Coconut Plantation,Redundant section - PBC23,Redundant as of July 2017,Picard
+CAC,24,1000,PBC,Station Coastal Coconut Plantation,Redundant section - PBC24,Redundant as of July 2017,Picard
+CAC,25,1000,PBC,Station Coastal Coconut Plantation,Redundant section - PBC25,Redundant as of July 2017,Picard
+CAC,26,1000,PBC,Station Coastal Coconut Plantation,Redundant section -PBC26,Redundant as of July 2017,Picard
+GRA,27,1000,PBC,Station Coastal Coconut Plantation,PBC01,Was PBC27,Picard
+GRA,28,1000,PBC,Station Coastal Coconut Plantation,PBC02,Was PBC28,Picard
+OMX,29,1000,PBC,Station Coastal Coconut Plantation,PBC03,Was PBC29,Picard
+GRA,30,1000,PBC,Station Coastal Coconut Plantation,PBC04,Was PBC30,Picard
+GRA,31,1000,PBC,Station Coastal Coconut Plantation,PBC05,Was PBC31,Picard
+SND,32,1000,PBC,Station Coastal Coconut Plantation,PBC06,Was PBC32,Picard
+GRA,33,1000,PBC,Station Coastal Coconut Plantation,PBC07,Was PBC33,Picard
+GRA,34,1000,PBC,Station Coastal Coconut Plantation,PBC08,Was PBC34,Picard
+GRA,35,1000,PBC,Station Coastal Coconut Plantation,PBC09,Was PBC35,Picard
+GRA,36,1000,PBC,Station Coastal Coconut Plantation,PBC10,Was PBC36,Picard
+GRA,37,1000,PBC,Station Coastal Coconut Plantation,PBC11,Was PBC37,Picard
+GRA,38,1000,PBC,Station Coastal Coconut Plantation,PBC12,Was PBC38,Picard
+OMX,39,1000,PBC,Station Coastal Coconut Plantation,PBC13,Was PBC39,Picard
+SND,40,1000,PBC,Station Coastal Coconut Plantation,PBC14,Was PBC40,Picard
+OMX,1,500,PDB,Station Back Path Mixed Scrub,PDB01,,Picard
+OMX,2,500,PDB,Station Back Path Mixed Scrub,PDB02,,Picard
+OMX,3,500,PDB,Station Back Path Mixed Scrub,PDB03,,Picard
+OMX,4,500,PDB,Station Back Path Mixed Scrub,PDB04,,Picard
+OMX,5,500,PDB,Station Back Path Mixed Scrub,PDB05,,Picard
+OMX,6,500,PDB,Station Back Path Mixed Scrub,PDB06,,Picard
+SMX,7,500,PDB,Station Back Path Mixed Scrub,PDB07,,Picard
+OMX,8,500,PDB,Station Back Path Mixed Scrub,PDB08,,Picard
+OMX,9,500,PDB,Station Back Path Mixed Scrub,PDB09,,Picard
+SMX,10,500,PDB,Station Back Path Mixed Scrub,PDB10,,Picard
+SMX,11,500,PDB,Station Back Path Mixed Scrub,PDB11,,Picard
+SMX,12,500,PDB,Station Back Path Mixed Scrub,PDB12,,Picard
+SMX,13,500,PDB,Station Back Path Mixed Scrub,PDB13,,Picard
+SMX,14,500,PDB,Station Back Path Mixed Scrub,PDB14,,Picard
+SMX,15,500,PDB,Station Back Path Mixed Scrub,PDB15,,Picard
+SMX,16,500,PDB,Station Back Path Mixed Scrub,PDB16,,Picard
+SMX,17,500,PDB,Station Back Path Mixed Scrub,PDB17,,Picard
+SMX,18,500,PDB,Station Back Path Mixed Scrub,PDB18,,Picard
+SMX,19,500,PDB,Station Back Path Mixed Scrub,PDB19,,Picard
+SMX,20,500,PDB,Station Back Path Mixed Scrub,PDB20,,Picard
+SMX,21,500,PDB,Station Back Path Mixed Scrub,PDB21,,Picard
+SMX,22,500,PDB,Station Back Path Mixed Scrub,PDB22,,Picard
+SMX,23,500,PDB,Station Back Path Mixed Scrub,PDB23,,Picard
+SMX,24,500,PDB,Station Back Path Mixed Scrub,PDB24,,Picard
+EXP,25,500,PDB,Station Back Path Mixed Scrub,PDB25,,Picard
+EXP,26,500,PDB,Station Back Path Mixed Scrub,PDB26,,Picard
+SMX,27,500,PDB,Station Back Path Mixed Scrub,PDB27,,Picard
+SMX,28,500,PDB,Station Back Path Mixed Scrub,PDB28,,Picard
+SMX,29,500,PDB,Station Back Path Mixed Scrub,PDB29,,Picard
+SMX,30,500,PDB,Station Back Path Mixed Scrub,PDB30,,Picard
+OMX,31,500,PDB,Station Back Path Mixed Scrub,PDB31,,Picard
+OMX,32,500,PDB,Station Back Path Mixed Scrub,PDB32,,Picard
+OMX,33,500,PDB,Station Back Path Mixed Scrub,PDB33,,Picard
+OMX,34,500,PDB,Station Back Path Mixed Scrub,PDB34,,Picard
+OMX,35,500,PDB,Station Back Path Mixed Scrub,PDB35,,Picard
+SMX,36,500,PDB,Station Back Path Mixed Scrub,PDB36,,Picard
+SMX,37,500,PDB,Station Back Path Mixed Scrub,PDB37,,Picard
+SMX,38,500,PDB,Station Back Path Mixed Scrub,PDB38,,Picard
+PEM,39,500,PDB,Station Back Path Mixed Scrub,PDB39,,Picard
+PEM,40,500,PDB,Station Back Path Mixed Scrub,PDB40,,Picard
