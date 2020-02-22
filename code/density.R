@@ -325,7 +325,7 @@ model_density <- function(abundance_per_day, collection_event){
 plot_density <- function(density_models){
   require(ggplot2)
   m_d <- density_models
-  ylim <- c(10,44)
+  ylim <- c(0,44)
   intercept_d <- c(m_d[[1]]$coefficients[1])
   pd1 <- extract_fit(m_d[[2]][[1]]) %>%
     dplyr::mutate(fit = fit + intercept_d,
