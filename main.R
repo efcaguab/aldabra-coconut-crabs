@@ -53,6 +53,7 @@ density_plan <- drake_plan(
   # best model does not include environmental coovariates and has a halfnormal detection function (abu9)
   best_detectability_abundance_model = determine_best_detectability_abundance_model(detectability_abundance_model), 
   abundance_per_day = calculate_abundance_per_day(detectability_abundance_model), 
+  det_per_day = calculate_detectability_per_day(detectability_abundance_model, habitat_simple),
   env_effect_plots = check_env_effect_detectability(detectability_abundance_model), 
   abundance_from_density_model_plot = plot_abundance_from_density_model(abundance_per_day), 
   density_models = model_density(abundance_per_day, collection_event), 

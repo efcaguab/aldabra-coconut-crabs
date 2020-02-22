@@ -188,6 +188,35 @@ calculate_abundance_per_day <- function(detectability_abundance_model){
   return(ab)
 }
 
+calculate_detectability_per_day <- function(detectability_abundance_model, habitat_simple) {
+  
+  require(unmarked)
+  
+  extract_detectability_coef <- . %>%
+      coef(type = "det") %>%
+      as.data.frame() %>%
+      tibble::rownames_to_column() %>%
+      dplyr::rename(habitat = rowname, 
+                    sigma = ".") %>%
+      dplyr::mutate(habitat = stringr::str_extract(habitat, "[A-Z]+"),
+                    habitat = dplyr::if_else(habitat == "I", 
+                                             unique(habitat_simple$habitat)[1], 
+                                             habitat),
+                    sigma = dplyr::if_else(sigma == dplyr::first(sigma), 
+                                           sigma, 
+                                           sigma + dplyr::first(sigma)), 
+                    sigma = exp(sigma)) %>%
+      dplyr::rowwise() %>%
+      dplyr::mutate(eshw = integrate(unmarked::gxhn, 0, 5, sigma)$value, 
+                    det_probability = eshw / 5) %>%
+    dplyr::select(-sigma)
+  
+  detectability_abundance_model$abu3 %>%
+    purrr::map_dfr(extract_detectability_coef, .id = "date") %>%
+    dplyr::ungroup() %>%
+    dplyr::summarise_if(is.numeric, .funs = list(mean = mean, max = max, min = min))
+}
+
 check_env_effect_detectability <- function(detectability_abundance_model){
   library(ggplot2)
   attach(detectability_abundance_model)
