@@ -151,23 +151,82 @@ determine_best_detectability_abundance_model <- function(detectability_abundance
   require(foreach)
   attach(detectability_abundance_model)
   
-  habitat_abundance <- foreach (i = 1:length(abu1), .combine = c) %do% {
-    if (class(abu0[[i]]) == "unmarkedFitDS"){
-      which.min(c(abu1[[i]]@AIC, abu2[[i]]@AIC, abu3[[i]]@AIC, abu4[[i]]@AIC,
-                  abu5[[i]]@AIC, abu6[[i]]@AIC, abu7[[i]]@AIC, abu8[[i]]@AIC))
-    }
-  } %>% table
+  extract_aics <- . %>%
+    purrr::map_dfr(~dplyr::tibble(AIC = .@AIC), .id = "date")
   
-  detectability_function <- foreach (i = 1:length(abu1), .combine = c) %do% {
-    which.min(c(abu8[[i]]@AIC, abu9[[i]]@AIC, abu10[[i]]@AIC, abu11[[i]]@AIC))
-  } %>% table
+  aic_table <- detectability_abundance_model %>%
+    purrr::map_dfr(extract_aics, .id = "model") 
   
-  list(habitat_abundance, detectability_function)
+  summary_delta_aic <- . %>%
+    dplyr::group_by(date) %>%
+    dplyr::mutate(delta_AIC = AIC - min(AIC)) %>%
+    dplyr::select(-AIC) %>%
+    dplyr::group_by(model) %>%
+    dplyr::summarise_if(is.numeric, .funs = list(mean = mean, median = median, min = min, max = max))
+  
+  aic_table %>%
+    dplyr::filter(model %in% c("abu0", "abu1", "abu2", "abu3")) %>%
+    summary_delta_aic()
+}
+
+extract_coeficients <- function(detectability_abundance_model, habitat_simple){
+  
+  # baseline_habitat <- unique(habitat_simple$habitat)[!unique(habitat_simple$habitat) %in% habitat_names]
+  library(unmarked)
+  # loadd(detectability_abundance_model)
+  extract_detectability_coef <- . %>%
+    coef(type = "det") %>%
+    as.data.frame() %>%
+    tibble::rownames_to_column() %>%
+    dplyr::rename(habitat = rowname, 
+                  sigma = ".") %>%
+    dplyr::mutate(habitat = stringr::str_extract(habitat, "[A-Z]+"),
+                  habitat = dplyr::if_else(habitat == "I", 
+                                           unique(habitat_simple$habitat)[1], 
+                                           habitat),
+                  sigma = dplyr::if_else(sigma == dplyr::first(sigma), 
+                                         sigma, 
+                                         sigma + dplyr::first(sigma)),
+                  sigma = exp(sigma)) %>%
+    dplyr::rowwise() %>%
+    dplyr::mutate(eshw = integrate(unmarked::gxhn, 0, 5, sigma)$value, 
+                  det_probability = eshw / 5) %>%
+    dplyr::select(-sigma)
+                  
+  extract_density_coef <- . %>%  
+    coef(type = "state") %>%
+    as.data.frame() %>%
+    tibble::rownames_to_column() %>%
+    dplyr::rename(habitat = rowname, 
+                  sigma = ".") %>%
+    dplyr::mutate(habitat = stringr::str_extract(habitat, "[A-Z]+"),
+                  habitat = dplyr::if_else(habitat == "I", 
+                                           unique(habitat_simple$habitat)[1], 
+                                           habitat),
+                  sigma = dplyr::if_else(sigma == dplyr::first(sigma), 
+                                         sigma, 
+                                         sigma + dplyr::first(sigma)))
+  
+  
+  detectability_abundance_model$abu1 %>%
+    purrr::map_dfr(extract_detectability_coef, .id = "date") %>%
+    dplyr::group_by(habitat) %>%
+    dplyr::summarise_if(is.numeric, .funs = list(mean =mean))
+                        # , se = ~ sd(.)/sqrt(dplyr::n()))
+  
+
+  detectability_abundance_model$abu2 %>%
+    purrr::map_dfr(extract_density_coef, .id = "date") %>%
+    dplyr::group_by(habitat) %>%
+    dplyr::summarise_if(is.numeric, .funs = list(mean =mean)) %>%
+    dplyr::mutate(mean = exp(mean))
+  
+  
 }
 
 calculate_abundance_per_day <- function(detectability_abundance_model){
   
-  ab <- detectability_abundance_model$abu1 %>%
+  ab <- detectability_abundance_model$abu3 %>%
     lapply(function(x) {
       xx <- x@estimates@estimates$state
       ests <- xx@estimates
