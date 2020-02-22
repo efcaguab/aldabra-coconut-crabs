@@ -48,7 +48,8 @@ models_plan <- drake_plan(
 )
 
 density_plan <- drake_plan(
-  detectability_abundance_model = model_detectability_abundance(crab_tbl, collection_event, habitat_pca_components, dist_shore), 
+  detectability_abundance_model = model_detectability_abundance(crab_tbl, collection_event, habitat_simple, dist_shore), 
+  det_ab_model_global = model_detectability_abundance_global(crab_tbl, collection_event, habitat_simple, dist_shore), 
   # best model does not include environmental coovariates and has a halfnormal detection function (abu9)
   best_detectability_abundance_model = determine_best_detectability_abundance_model(detectability_abundance_model), 
   abundance_per_day = calculate_abundance_per_day(detectability_abundance_model), 
