@@ -1,0 +1,77 @@
+---
+title: "Supplementary Information"
+output: word_document
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(magrittr)
+```
+
+## Density models
+
+To determine the influence of habitat on both density and detectability, we fitted a set of hierarchical distance sampling model for each of the surveys performed using a half-normal detection function.
+Specifically, for each survey, we fitted four models. 
+First, a model in which we assumed that habitat influences both crab density and detectability 
+A second and third model in which we assumed habitat to be a covariate of only density and detectability, respectively. 
+Finally, a fourth model in which we assumed that habitat did not influence either density or detectability. 
+Then, for each survey, we determined the relative performance of each of the four models using the Akaike Information Criteria (AIC). 
+Specifically, we determined the difference between each model's AIC and the model with the smallest AIC (a metric known as ∆AIC)
+We then calculated the median ∆AIC for each type of model and compared it to determine which of the four assumptions performed better overall. 
+
+```{r}
+bdam <- drake::readd(best_detectability_abundance_model) %>%
+  dplyr::mutate_if(is.numeric, round, digits = 1)
+```
+
+Our results indicate that habitat did not have an important effect on neither density or detectability. 
+Indeed, we found that the fourth type of model (in which we assume no effect of habitat in neither density or detectability) had a median ∆AIC of `r bdam$median[bdam$model == "abu3"]` (min. `r bdam$min[bdam$model == "abu3"]`; max. `r bdam$max[bdam$model == "abu3"]`). 
+In contrast, the first model set (in which we assume an effect of habitat on both density and detectability) had a median ∆AIC of `r bdam$median[bdam$model == "abu0"]`.
+
+## Model outputs
+
+Below the output of each of the models used in the paper
+
+### Count models
+
+```{r}
+drake::loadd(count_models)
+```
+
+
+### Female crabs
+
+```{r}
+summary(count_models[[1]][[1]])
+```
+
+### Male crabs
+
+
+```{r}
+summary(count_models[[1]][[2]])
+```
+
+### Sex-ratio model
+
+```{r}
+summary(drake::readd(sex_ratio_models)[[1]])
+```
+
+### Size models
+
+```{r}
+drake::loadd(size_models)
+```
+
+## Female crabs
+
+```{r}
+summary(size_models[[1]][[1]])
+```
+
+## Male crabs
+
+```{r}
+summary(size_models[[1]][[2]])
+```
