@@ -62,13 +62,17 @@ density_plan <- drake_plan(
 )
 
 save_figures_plan <- drake_plan(
-  ggplot2::ggsave(file_out("figs/habitat-pca.pdf"), habitat_pca_fig, width = 4.7, height = 3.3, scale = 1.5),
+  ggplot2::ggsave(file_out("figs/habitat-pca.tiff"), habitat_pca_fig, width = 4.7, height = 3.3, scale = 1.5),
   ggplot2::ggsave(file_out("figs/density.tiff"), density_fig, width = 3.18, height = 4.5, scale = 1, dpi = 300),
-  ggplot2::ggsave(file_out("figs/seasonality_count_size.pdf"), seasonality_count_size_fig, width = 6.65, height = 4.5), 
-  ggplot2::ggsave(file_out("figs/moon_count_size.pdf"), moon_count_size_fig, width = 3.18, height = 4.5),
-  ggplot2::ggsave(file_out("figs/size_distribution.pdf"), size_distribution_fig, width = 3.18, height = 4.5/2),
-  ggplot2::ggsave(file_out("figs/moulting.pdf"), moult_fig, width = 3.18, height = 4.5/2),
-  ggplot2::ggsave(file_out("figs/reproduction.pdf"), reproduction_fig, width = 3.18, height = 4.5/2)
+  ggplot2::ggsave(file_out("figs/seasonality_count_size.tiff"), seasonality_count_size_fig, width = 6.65, height = 4.5), 
+  ggplot2::ggsave(file_out("figs/moon_count_size.tiff"), moon_count_size_fig, width = 3.18, height = 4.5),
+  ggplot2::ggsave(file_out("figs/size_distribution.tiff"), size_distribution_fig, width = 3.18, height = 4.5/2),
+  ggplot2::ggsave(file_out("figs/moulting.tiff"), moult_fig, width = 3.18, height = 4.5/2),
+  ggplot2::ggsave(file_out("figs/reproduction.tiff"), reproduction_fig, width = 3.18, height = 4.5/2)
+)
+
+manuscript_plan <- drake_plan(
+  rmarkdown::render(knitr_in("paper/supp_info.Rmd"))
 )
 
 project_plan <- rbind(
