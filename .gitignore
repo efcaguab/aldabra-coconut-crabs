@@ -43,3 +43,6 @@ packrat/lib*/
 Rplots\.pdf
 
 \.drake/
+
+# Ignore .docx
+*.docx
