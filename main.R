@@ -62,7 +62,7 @@ density_plan <- drake_plan(
 )
 
 save_figures_plan <- drake_plan(
-  ggplot2::ggsave(file_out("figs/habitat-pca.tiff"), habitat_pca_fig, width = 4.7, height = 3.3, scale = 1.5),
+  # ggplot2::ggsave(file_out("figs/habitat-pca.tiff"), habitat_pca_fig, width = 4.7, height = 3.3, scale = 1.5),
   ggplot2::ggsave(file_out("figs/density.tiff"), density_fig, width = 3.18, height = 4.5, scale = 1, dpi = 300),
   ggplot2::ggsave(file_out("figs/seasonality_count_size.tiff"), seasonality_count_size_fig, width = 6.65, height = 4.5), 
   ggplot2::ggsave(file_out("figs/moon_count_size.tiff"), moon_count_size_fig, width = 3.18, height = 4.5),
