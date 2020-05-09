@@ -386,13 +386,22 @@ plot_density <- function(density_models){
   m_d <- density_models
   ylim <- c(0,44)
   intercept_d <- c(m_d[[1]]$coefficients[1])
+  
+  data_points <- m_d[[1]]$model %>%
+    dplyr::rename(density = 1, yday = 2, date = 3) %>%
+    dplyr::mutate(date = as.Date(date, origin = as.Date("1970-01-01")), 
+                  yday = as.Date("2016-01-01") + yday)
+  
   pd1 <- extract_fit(m_d[[2]][[1]]) %>%
     dplyr::mutate(fit = fit + intercept_d,
        fitmin = fitmin + intercept_d,
        fitmax = fitmax + intercept_d,
        x = as.Date("2016-01-01") + x) %>%
     ggplot(aes(x = x, y = fit)) +
-    # geom_point(data = m_d[[1]]$model, aes(y = density, x = as.Date("2016-01-01") + yday), size = 1, shape = 21, alpha = 0.5) + 
+    geom_point(data = data_points, 
+               mapping = aes(x = yday, y = density), 
+               size = 0.25, 
+               colour = "grey70") +
     geom_hline(yintercept = intercept_d, linetype = 2, colour = "grey25", size = 0.25) +
     geom_ribbon(aes(ymin = fitmin, ymax = fitmax), alpha = 0.25, fill = "grey50") +
     geom_line() + 
@@ -401,13 +410,17 @@ plot_density <- function(density_models){
     pub_theme() +
     labs(title = "B. Seasonality", 
          subtitle = "Crabs are more often encountered between Feb.-Jun.")
-  
+
   pd2 <- extract_fit(m_d[[2]][[2]]) %>%
     dplyr::mutate(fit = fit + intercept_d,
        fitmin = fitmin + intercept_d,
        fitmax = fitmax + intercept_d,
        x = as.Date("1970-01-01") + x) %>%
     ggplot(aes(x = x, y = fit)) +
+    geom_point(data = data_points, 
+               mapping = aes(x = date, y = density), 
+               size = 0.25, 
+               colour = "grey70") +
     geom_hline(yintercept = intercept_d, linetype = 2, colour = "grey25", size = 0.25) +
     # geom_point(data = m_d[[1]]$model, aes(y = density, x = as.Date("2016-01-01") + yday), size = 1, shape = 21, alpha = 0.5) + 
     geom_ribbon(aes(ymin = fitmin, ymax = fitmax), alpha = 0.25, fill = "grey50") +
@@ -417,6 +430,6 @@ plot_density <- function(density_models){
     pub_theme() +
     labs(title = "A. Long-term trends", 
          subtitle = "Crab density has been stable over the years")
-  
+
   cowplot::plot_grid(pd2, pd1, ncol = 1, align = "hv")
 }
