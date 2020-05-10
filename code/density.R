@@ -408,8 +408,7 @@ plot_density <- function(density_models){
     scale_x_date(date_labels = "%b", expand = c(0,0), name = "month", date_breaks = "2 month") +
     scale_y_continuous(limits = ylim, name = "crabs / hectare") +
     pub_theme() +
-    labs(title = "B. Seasonality", 
-         subtitle = "Crabs are more often encountered between Feb.-Jun.")
+    labs(tag = "B.")
 
   pd2 <- extract_fit(m_d[[2]][[2]]) %>%
     dplyr::mutate(fit = fit + intercept_d,
@@ -428,8 +427,7 @@ plot_density <- function(density_models){
     scale_x_date(expand = c(0,0), name = "date") +
     scale_y_continuous(limits = ylim, name = "crabs / hectare") +
     pub_theme() +
-    labs(title = "A. Long-term trends", 
-         subtitle = "Crab density has been stable over the years")
+    labs(tag = "A.")
 
   cowplot::plot_grid(pd2, pd1, ncol = 1, align = "hv")
 }

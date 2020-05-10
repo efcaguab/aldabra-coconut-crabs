@@ -54,8 +54,7 @@ plot_size_distribution <- function(crab_tbl){
     facet_grid(sex~ .) +
     pub_theme() +
     # coord_flip() +
-    labs(title = "Size distribution of observed coconut crabs", 
-         subtitle = "Female crabs are smaller than males") +
+    labs() +
     theme(legend.position = "none")
   
   p1

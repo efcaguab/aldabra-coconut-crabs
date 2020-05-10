@@ -49,8 +49,7 @@ plot_seasonality_counts_size <- function(count_models, size_models){
     geom_text_contour(stroke = 0.5, size = 2.3) +
     pub_theme() +
     theme_contour() +
-    labs(title = "A. Crab counts over the year at different distances from shore", 
-         subtitle = "Seasonality of crab density is largely driven by male sightings")
+    labs(tag = "A.")
   
   
   intercept_s <- data.frame(sex = c("F", "M"),
@@ -75,8 +74,7 @@ plot_seasonality_counts_size <- function(count_models, size_models){
     geom_text_contour(stroke = 0.5, size = 2.3) +
     pub_theme() +
     theme_contour()+
-    labs(title = "B. Crab size over the year at different distances from shore", 
-         subtitle = "Larger crabs are sighted in the first half of the year")
+    labs(tag = "B.")
   
   cowplot::plot_grid(pc, ps, ncol = 1, align = "hv")
 }

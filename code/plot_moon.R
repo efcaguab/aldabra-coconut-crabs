@@ -11,8 +11,8 @@ plot_moon_counts_size <- function(count_models, size_models){
   n <- grImport::readPicture("data/fig_annotations/N.xml") %>% grImport::pictureGrob()
   lq <- grImport::readPicture("data/fig_annotations/LQ.xml") %>% grImport::pictureGrob()
   # # moon
-  yc <- -0.099
-  ys <- -3.25
+  yc <- -0.096
+  ys <- -3.15
   widths1 <- c(0, 30, 16, 22)
   female_width_coords <- 0.16
   male_width_coords <- 0.11
@@ -28,10 +28,10 @@ plot_moon_counts_size <- function(count_models, size_models){
     dplyr::mutate(fit = exp(fit + intercept) - exp(intercept) ,
                   fitmax = exp(fitmax + intercept) - exp(intercept),
                   fitmin = exp(fitmin + intercept) - exp(intercept),
-                  sex = plyr::mapvalues(sex, c("F", "M"), c("♀", "♂"))) %>%
+                  sex = plyr::mapvalues(sex, c("F", "M"), c(" Female crabs  ", " Male crabs  "))) %>%
     ggplot(aes(x = x, y = fit)) +
-    annotation_custom(grid::rectGrob(gp = grid::gpar(col = NA, fill = colour_scale[1], alpha = alphas)), xmin = -0.005, xmax = -0.005 + female_width_coords, ymin = 0.108, ymax = 0.108 + 0.0175) +
-    annotation_custom(grid::rectGrob(gp = grid::gpar(col = NA, fill = colour_scale[2], alpha = alphas)), xmin = 0.24, xmax = 0.24 + male_width_coords, ymin = 0.108, ymax = 0.108 + 0.0175) +
+    # annotation_custom(grid::rectGrob(gp = grid::gpar(col = NA, fill = colour_scale[1], alpha = alphas)), xmin = -0.005, xmax = -0.005 + female_width_coords, ymin = 0.108, ymax = 0.108 + 0.0175) +
+    # annotation_custom(grid::rectGrob(gp = grid::gpar(col = NA, fill = colour_scale[2], alpha = alphas)), xmin = 0.24, xmax = 0.24 + male_width_coords, ymin = 0.108, ymax = 0.108 + 0.0175) +
     geom_hline(yintercept = 0, linetype = 2, size = 0.25, color = "grey20") +
     geom_line(aes(colour = sex)) +
     geom_ribbon(aes(ymax = fitmax, ymin = fitmin, fill = sex), alpha = alphas) +
@@ -50,21 +50,22 @@ plot_moon_counts_size <- function(count_models, size_models){
   pc3moon <- pc3moon + 
     xlab("moon phase") + ylab("count deviation") +
     pub_theme() +
-    theme(legend.position = "none", 
+    theme(legend.title = element_blank(),
+          legend.position = c(0.005,0.005),
+          # legend.position = "none", 
           # plot.subtitle = element_text(margin = margin(t = 0, b = 0)), 
           # plot.title = element_text(margin = margin(b = 0)), 
           axis.text.x = element_text(hjust = 0.5, margin = margin(t = 10)),
           plot.margin = grid::unit(c(0.4,0.5, 0.4, 0.4), "lines")) +
-    labs(title = "A. Crab counts vs. moon phase", 
-         subtitle = "asdasd")
+    labs(tag = "A.")
   
-  # colorful subtitle
-  pc3grob <- ggplotGrob(pc3moon)
-  strings <- c("Female", "and", "male", "counts peak at oppossite phases")
-  pc3grob[[1]][[15]]$children[[1]]$label <- strings
-  pc3grob[[1]][[15]]$children[[1]]$x <- unit(cumsum(widths1), "pt")
-  pc3grob[[1]][[15]]$children[[1]]$gp$col <- c(colour_scale[1], "black", colour_scale[2], "black")
-  pc3grob[[1]][[15]]$children[[1]]$gp$font <- c("plain" = c(2L, 1L, 2L, 1L))
+  # # colorful subtitle
+  # pc3grob <- ggplotGrob(pc3moon)
+  # strings <- c("Female", "and", "male", "counts peak at oppossite phases")
+  # pc3grob[[1]][[15]]$children[[1]]$label <- strings
+  # pc3grob[[1]][[15]]$children[[1]]$x <- unit(cumsum(widths1), "pt")
+  # pc3grob[[1]][[15]]$children[[1]]$gp$col <- c(colour_scale[1], "black", colour_scale[2], "black")
+  # pc3grob[[1]][[15]]$children[[1]]$gp$font <- c("plain" = c(2L, 1L, 2L, 1L))
   
   ##### Size plot
   
@@ -73,10 +74,10 @@ plot_moon_counts_size <- function(count_models, size_models){
                                           m_s[[1]][[2]]$coefficients[1]))
   ps3 <- get_var_gam(m_s[[2]], 4) %>%
     dplyr::inner_join(intercept_s) %>% 
-    dplyr::mutate(sex = plyr::mapvalues(sex, c("F", "M"), c("♀", "♂"))) %>%
+    dplyr::mutate(sex = plyr::mapvalues(sex, c("F", "M"), c(" Female crabs  ", " Male crabs  "))) %>%
     ggplot(aes(x = x, y = fit)) +
     # annotation_custom(grid::rectGrob(gp = grid::gpar(col = NA, fill = colour_scale[1], alpha = alphas)), xmin = 0.174, xmax = 0.33, ymin = 3.8, ymax = 4.32) +
-    annotation_custom(grid::rectGrob(gp = grid::gpar(col = NA, fill = colour_scale[2], alpha = alphas)), xmin = -0.0075, xmax = -0.0075 + male_width_coords, ymin = 3.25, ymax = 3.25 + 0.52) +
+    # annotation_custom(grid::rectGrob(gp = grid::gpar(col = NA, fill = colour_scale[2], alpha = alphas)), xmin = -0.0075, xmax = -0.0075 + male_width_coords, ymin = 3.25, ymax = 3.25 + 0.52) +
     geom_hline(yintercept = 0, linetype = 2, size = 0.25, color = "grey20") +
     geom_line(aes(colour = sex)) +
     geom_ribbon(aes(ymax = fitmax, ymin = fitmin, fill = sex), alpha = alphas) +
@@ -90,27 +91,25 @@ plot_moon_counts_size <- function(count_models, size_models){
   ps3moon <- draw_moons(ps3, ys, s, n, fq, f, lq)
   
   ps3moon <- ps3moon +
-    xlab("moon phase") + ylab("size deviation") +
+    xlab("moon phase") + ylab("thoracic length deviation [mm]") +
     pub_theme() +
-    theme(legend.position = "none", 
-          axis.text.x = element_text(hjust = 0.5, margin = margin(t = 10)),
-          plot.margin = grid::unit(c(0.4,0.5, 0.4, 0.4), "lines")) +
-    labs(title = "B. Crab size vs. moon phase", 
-         subtitle = "Csadasdas", 
-         x = "moon phase", 
-         y = "size deviation [mm]")
+    theme(axis.text.x = element_text(hjust = 0.5, margin = margin(t = 10)),
+          plot.margin = grid::unit(c(0.4,0.5, 0.4, 0.4), "lines"), 
+          legend.title = element_blank(),
+          legend.position = c(0.005,0.005)) +
+    labs(tag = "B.")
   
   # colorful subtitle
-  ps3grob <- ggplotGrob(ps3moon)
-  strings <- c("Male", "size peaks on new moon")
-  # widths <- c(0, 4.5, 6, 3, 4)
-  ps3grob[[1]][[15]]$children[[1]]$label <- strings
-  ps3grob[[1]][[15]]$children[[1]]$x <- unit(cumsum(widths2), "pt")
-  ps3grob[[1]][[15]]$children[[1]]$gp$col <- c(colour_scale[2], "black")
-  ps3grob[[1]][[15]]$children[[1]]$gp$font <- c("plain" = c(2L, 1L))
+  # ps3grob <- ggplotGrob(ps3moon)
+  # strings <- c("Male", "size peaks on new moon")
+  # # widths <- c(0, 4.5, 6, 3, 4)
+  # ps3grob[[1]][[15]]$children[[1]]$label <- strings
+  # ps3grob[[1]][[15]]$children[[1]]$x <- unit(cumsum(widths2), "pt")
+  # ps3grob[[1]][[15]]$children[[1]]$gp$col <- c(colour_scale[2], "black")
+  # ps3grob[[1]][[15]]$children[[1]]$gp$font <- c("plain" = c(2L, 1L))
+  # 
   
-  
-  cowplot::plot_grid(pc3grob, ps3grob, ncol = 1, align = "hv")
+  cowplot::plot_grid(pc3moon, ps3moon, ncol = 1, align = "hv")
   
   # ggplot2::ggsave(drake::file_out("figs/moon_count_size.pdf"), width = 3.18, height = 4.5)
 }

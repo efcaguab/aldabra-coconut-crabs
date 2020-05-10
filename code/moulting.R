@@ -40,34 +40,34 @@ plot_moulting <- function(moult_models){
   m_m <- moult_models
   widths1 <- c(0, 30, 16, 22)
   
+  colour_scale <- colour_scale()
+  
   p <- get_var_gam(m_m[[2]], 1)  %>%
     dplyr::mutate(x = as.Date("2016-01-01") + x - min(x),
-                  sex = plyr::mapvalues(sex, c("F", "M"), c("♀", "♂"))) %>% 
+                  sex = plyr::mapvalues(sex, c("F", "M"), c(" Female crabs  ", " Male crabs  "))) %>% 
     ggplot(aes(x = x, y = fit)) +
     geom_hline(yintercept = 0, linetype = 2, colour = "grey25", size = 0.25) +
     geom_ribbon(aes(ymax = fitmax, ymin = fitmin, fill = sex), alpha = 0.2) +
     geom_line(aes(colour = sex)) +
     scale_x_date(date_labels = "%b", name = "month", date_breaks = "2 month", expand = c(0,0)) +
     # scale_y_continuous(name = "probability", expand = c(0,0), limits = c(-0.4, 0.4)) +
-    scale_color_manual(values = colour_scale(), name = "") +
-    scale_fill_manual(values = colour_scale(), name = "") + 
+    scale_color_manual(values = colour_scale, name = "") +
+    scale_fill_manual(values = colour_scale, name = "") + 
     scale_linetype_manual(values = c(2, 1), name = "moon\nphase") + 
     pub_theme() +
-    theme(legend.position = "none", 
-          axis.title.x = element_blank()) +
-    labs(y = "pleonal index deviation", 
-         title = "Pleonal index deviation over the year", 
-         subtitle = "Female and male crabs have distinct moulting periods")
+    theme(legend.title = element_blank(),
+          legend.position = c(0.005,0.005)) +
+    labs(y = "pleonal index deviation")
   
   # colorful subtitle
-  pc3grob <- ggplotGrob(p)
-  strings <- c("Female", "and", "male", "crabs moult at different times")
-  pc3grob[[1]][[15]]$children[[1]]$label <- strings
-  pc3grob[[1]][[15]]$children[[1]]$x <- unit(cumsum(widths1), "pt")
-  pc3grob[[1]][[15]]$children[[1]]$gp$col <- c(colour_scale()[1], "black", colour_scale()[2], "black")
-  pc3grob[[1]][[15]]$children[[1]]$gp$font <- c("plain" = c(2L, 1L, 2L, 1L))
+  # pc3grob <- ggplotGrob(p)
+  # strings <- c("Female", "and", "male", "crabs moult at different times")
+  # pc3grob[[1]][[15]]$children[[1]]$label <- strings
+  # pc3grob[[1]][[15]]$children[[1]]$x <- unit(cumsum(widths1), "pt")
+  # pc3grob[[1]][[15]]$children[[1]]$gp$col <- c(colour_scale()[1], "black", colour_scale()[2], "black")
+  # pc3grob[[1]][[15]]$children[[1]]$gp$font <- c("plain" = c(2L, 1L, 2L, 1L))
   
-  pc3grob
+  p
 }
 
 plot_moulting_data <- function(moult_models){

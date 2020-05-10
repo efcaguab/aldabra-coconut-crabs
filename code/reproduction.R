@@ -30,6 +30,8 @@ plot_reproduction <- function(reproduction_models){
   require(ggplot2)
   m_e <- reproduction_models
   
+  colour_scale <- colour_scale()
+  
   moult_data <- m_e$mod$model %>%
     dplyr::mutate(x =  as.Date("2016-01-01") + month - min(month))
   
@@ -43,11 +45,11 @@ plot_reproduction <- function(reproduction_models){
                   fitmax = plogis(intercept + fitmax),
                   x = as.Date("2016-01-01") + x - min(x)) %>% 
     ggplot(aes(x = x, y = fit)) +
-    geom_ribbon(aes(ymax = fitmax, ymin = fitmin), alpha = 0.2, fill = colour_scale()[1]) +
-    geom_line(aes(linetype = as.factor(round(moon_ph, 2))), colour = colour_scale()[1]) +
+    geom_ribbon(aes(ymax = fitmax, ymin = fitmin), alpha = 0.2, fill = colour_scale[1]) +
+    geom_line(aes(linetype = as.factor(round(moon_ph, 2))), colour = colour_scale[1]) +
     geom_point(data = moult_data, 
                aes(x = x, y = as.numeric(egg)), 
-               colour = colour_scale()[1],
+               colour = colour_scale[1],
                # size = 2,
                alpha = 0.3, 
                shape = 3) +
@@ -61,10 +63,8 @@ plot_reproduction <- function(reproduction_models){
           legend.position = "top", 
           legend.title = element_blank(), 
           legend.key.width = grid::unit(1, "lines"), 
-          legend.key.height = grid::unit(0.1, "lines"), 
-          axis.title.x = element_blank()) +
-    labs(title = "Probability of encountering a female carring eggs", 
-         subtitle = "Higer probability between Dec. and Mar.")
+          legend.key.height = grid::unit(0.1, "lines")) +
+    labs()
   
-  ggplot2::ggsave("figs/reproduction.pdf", width = 3.18, height = 4.5/2)
+  # ggplot2::ggsave("figs/reproduction.pdf", width = 3.18, height = 4.5/2)
 }
