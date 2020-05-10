@@ -45,7 +45,8 @@ models_plan <- drake_plan(
   moon_count_size_fig = plot_moon_counts_size(count_models, size_models), 
   moon_count_size_data_fig = plot_moon_data(count_models, size_models),
   size_distribution_fig = plot_size_distribution(crab_tbl), 
-  moult_fig = plot_moulting(moult_models)
+  moult_fig = plot_moulting(moult_models), 
+  moult_data_fig = plot_moulting_data(moult_models)
 )
 
 density_plan <- drake_plan(
@@ -70,6 +71,7 @@ save_figures_plan <- drake_plan(
   ggplot2::ggsave(file_out("figs/moon_count_size_data.tiff"), moon_count_size_data_fig, width = 3.18*2, height = 4.5),
   ggplot2::ggsave(file_out("figs/size_distribution.tiff"), size_distribution_fig, width = 3.18, height = 4.5/2),
   ggplot2::ggsave(file_out("figs/moulting.tiff"), moult_fig, width = 3.18, height = 4.5/2),
+  ggplot2::ggsave(file_out("figs/moulting_data.tiff"), moult_data_fig, width = 3.18 * 2, height = 4.5/2),
   ggplot2::ggsave(file_out("figs/reproduction.tiff"), reproduction_fig, width = 3.18, height = 4.5/2)
 )
 

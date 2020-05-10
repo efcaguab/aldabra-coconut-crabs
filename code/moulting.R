@@ -69,3 +69,22 @@ plot_moulting <- function(moult_models){
   
   pc3grob
 }
+
+plot_moulting_data <- function(moult_models){
+  
+  colour_scale <- colour_scale()
+  require(ggplot2)
+  
+  dplyr::mutate(moult_models$mod[[1]]$model, sex = "Female crabs") %>%
+    dplyr::bind_rows(dplyr::mutate(moult_models$mod[[2]]$model, sex = "Male crabs")) %>%
+    dplyr::rename(moult = 1, yday = 2) %>%
+    dplyr::mutate(yday = as.Date("2016-01-01") + yday) %>% 
+    ggplot(aes(x = yday, y = moult, colour = sex))  +
+    scale_color_manual(values = colour_scale) + 
+    scale_x_date(date_labels = "%b", expand = c(0,0), name = "month", date_breaks = "2 month") +
+    geom_point(size = 0.25, alpha = 0.3) +
+    facet_grid(cols = vars(sex)) +
+    pub_theme() +
+    theme(legend.position = "none") +
+    labs(y = "pleonal index")
+}
