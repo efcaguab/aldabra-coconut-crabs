@@ -29,6 +29,10 @@ model_reproduction <- function(crab_tbl, collection_event){
 plot_reproduction <- function(reproduction_models){
   require(ggplot2)
   m_e <- reproduction_models
+  
+  moult_data <- m_e$mod$model %>%
+    dplyr::mutate(x =  as.Date("2016-01-01") + month - min(month))
+  
   intercept <- m_e[[1]]$coefficients[1]
   expand.grid(moon_ph_fit = c(0, range(extract_fit(m_e[[2]][[2]])$fit)),
               x = extract_fit(m_e[[2]][[1]])$x) %>%
@@ -41,6 +45,12 @@ plot_reproduction <- function(reproduction_models){
     ggplot(aes(x = x, y = fit)) +
     geom_ribbon(aes(ymax = fitmax, ymin = fitmin), alpha = 0.2, fill = colour_scale()[1]) +
     geom_line(aes(linetype = as.factor(round(moon_ph, 2))), colour = colour_scale()[1]) +
+    geom_point(data = moult_data, 
+               aes(x = x, y = as.numeric(egg)), 
+               colour = colour_scale()[1],
+               # size = 2,
+               alpha = 0.3, 
+               shape = 3) +
     scale_x_date(date_labels = "%b", name = "month", date_breaks = "2 month", expand = c(0,0)) +
     scale_y_continuous(name = "probability", expand = c(0,0), limits = c(0,1)) +
     scale_linetype_manual(values = c(2, 1), name = "moon\nphase", 
@@ -56,5 +66,5 @@ plot_reproduction <- function(reproduction_models){
     labs(title = "Probability of encountering a female carring eggs", 
          subtitle = "Higer probability between Dec. and Mar.")
   
-  # ggplot2::ggsave("figs/reproduction.pdf", width = 3.18, height = 4.5/2)
+  ggplot2::ggsave("figs/reproduction.pdf", width = 3.18, height = 4.5/2)
 }
