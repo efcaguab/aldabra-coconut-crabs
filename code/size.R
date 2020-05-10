@@ -30,51 +30,35 @@ plot_size_distribution <- function(crab_tbl){
   require(ggplot2)
   colour_scale <- colour_scale()
   
-  p1 <- crab_tbl %>%
+  size_data <- crab_tbl %>%
     dplyr::select(sex, t_length) %>% 
     dplyr::filter(!is.na(sex)) %>% 
-    dplyr::mutate(row_n = 1:nrow(.)) %>%
-    tidyr::spread(sex, t_length) %>%
-    ggplot() +
-    stat_density(aes(x = male), alpha = 1, fill = colour_scale[2], colour = colour_scale[2], geom = "area", trim = T) +
-    stat_density(aes(x = female, y = -(..density..)), alpha = 1, fill = colour_scale[1], colour = colour_scale[1], geom = "area", trim = T) +
+    dplyr::mutate(row_n = 1:nrow(.), 
+                  sex = if_else(sex == "male", 
+                                true = "Male crabs", false = "Female crabs")) 
+  
+  size_means <- size_data %>%
+    dplyr::group_by(sex) %>%
+    dplyr::summarise(mean = mean(t_length), 
+                     sd = sd(t_length),
+                     n = dplyr::n()) %>%
+    dplyr::mutate(se = sd/sqrt(n))
+  
+  p1 <- size_data %>%
+    ggplot(aes(fill = sex, colour = sex)) +
+    geom_histogram(aes(x = t_length), binwidth = 1) +
+    geom_vline(data = size_means, aes(xintercept = mean, colour = sex), 
+               linetype = 2) +
     scale_x_continuous(name = "thoracic length [mm]") +
+    scale_fill_manual(values = colour_scale, aesthetics = c("fill", "colour")) +
+    facet_grid(sex~ .) +
     pub_theme() +
-    coord_flip() +
+    # coord_flip() +
     labs(title = "Size distribution of observed coconut crabs", 
-         subtitle = "Female crabs are smaller than males")
+         subtitle = "Female crabs are smaller than males") +
+    theme(legend.position = "none")
   
-  # colorful subtitle
-  p1grob <- ggplotGrob(p1)
-  strings <- c("Female","crabs are smaller than", "males")
-  widths <- c(0, 30, 81)
-  # widths <- c(0, 4.5, 6, 3, 4)
-  p1grob[[1]][[15]]$children[[1]]$label <- strings
-  p1grob[[1]][[15]]$children[[1]]$x <- unit(cumsum(widths), "pt")
-  p1grob[[1]][[15]]$children[[1]]$gp$col <- c(colour_scale[1], "black", colour_scale[2])
-  p1grob[[1]][[15]]$children[[1]]$gp$font <- c("plain" = c(2L, 1L, 2L))
+  p1
   
-  p2 <- crab_tbl %>%
-    dplyr::filter(!is.na(sex)) %>%
-    ggplot(aes(x = sex, y = t_length)) +
-    geom_boxplot(aes(colour = sex), 
-                 alpha = 0.2, outlier.size = 1, 
-                 outlier.shape = 21, size = 0.5) +
-    # geom_boxplot(aes(fill = sex),
-    #              fill = "transparent",
-    #              outlier.size = 1,
-    #              outlier.shape = 21, size = 0.5) +
-    theme_bw() +
-    scale_x_discrete(labels = c("females", "males")) +
-    scale_y_continuous(position = "right") +
-    scale_fill_manual(values = colour_scale) +
-    scale_color_manual(values = colour_scale) +
-    pub_theme() +
-    theme(legend.position = "none", 
-          axis.title.y = element_blank(), 
-          plot.background = element_blank()) +
-    ylab("thoracic length [mm]") + xlab("")
-  
-  cowplot::plot_grid(p1grob, p2, ncol = 2, rel_widths = c(2, 1), align = "h")
   # ggplot2::ggsave(drake::file_out("figs/size_distrubution.pdf"), width = 3.18, height = 4.5/2)
 }
