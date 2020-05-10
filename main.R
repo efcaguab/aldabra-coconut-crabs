@@ -43,6 +43,7 @@ models_plan <- drake_plan(
   count_models = model_counts(crab_master_df, collection_event, dist_shore), 
   seasonality_count_size_fig = plot_seasonality_counts_size(count_models, size_models),
   moon_count_size_fig = plot_moon_counts_size(count_models, size_models), 
+  moon_count_size_data_fig = plot_moon_data(count_models, size_models),
   size_distribution_fig = plot_size_distribution(crab_tbl), 
   moult_fig = plot_moulting(moult_models)
 )
@@ -66,6 +67,7 @@ save_figures_plan <- drake_plan(
   ggplot2::ggsave(file_out("figs/density.tiff"), density_fig, width = 3.18, height = 4.5, scale = 1, dpi = 300),
   ggplot2::ggsave(file_out("figs/seasonality_count_size.tiff"), seasonality_count_size_fig, width = 6.65, height = 4.5), 
   ggplot2::ggsave(file_out("figs/moon_count_size.tiff"), moon_count_size_fig, width = 3.18, height = 4.5),
+  ggplot2::ggsave(file_out("figs/moon_count_size_data.tiff"), moon_count_size_data_fig, width = 3.18*2, height = 4.5),
   ggplot2::ggsave(file_out("figs/size_distribution.tiff"), size_distribution_fig, width = 3.18, height = 4.5/2),
   ggplot2::ggsave(file_out("figs/moulting.tiff"), moult_fig, width = 3.18, height = 4.5/2),
   ggplot2::ggsave(file_out("figs/reproduction.tiff"), reproduction_fig, width = 3.18, height = 4.5/2)

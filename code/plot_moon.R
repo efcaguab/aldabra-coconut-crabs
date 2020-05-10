@@ -139,3 +139,35 @@ draw_moons <- function(plot, ys, size_balls, n, fq, f, lq, padding_x = 10, offse
   
   return(o)
 }
+
+plot_moon_data <- function(count_models, size_models){
+  
+  colour_scale <- colour_scale()
+  require(ggplot2)
+  
+  scatter_plot <- function(x){
+    x +
+      scale_color_manual(values = colour_scale) + 
+      geom_point(size = 0.25, alpha = 0.3) +
+      facet_grid(cols = vars(sex)) +
+      pub_theme() +
+      theme(legend.position = "none") +
+      labs(x = "moon phase")
+  }
+  
+  plot_count_moon <- dplyr::mutate(count_models$mod[[1]]$model, sex = "Female crabs") %>%
+    dplyr::bind_rows(dplyr::mutate(count_models$mod[[2]]$model, sex = "Male crabs")) %>%
+    ggplot(aes(x = moon_ph, y = count, colour = sex)) %>%
+    scatter_plot() +
+    labs(tag = "A.")
+  
+  plot_size_moon <- dplyr::mutate(size_models$mod[[1]]$model, sex = "Female crabs") %>%
+    dplyr::bind_rows(dplyr::mutate(size_models$mod[[2]]$model, sex = "Male crabs")) %>%
+    ggplot(aes(x = moon_ph, y = t_length, colour = sex)) %>%
+    scatter_plot() +
+    labs(tag = "B.", 
+         y = "thoracic length [mm]")
+  
+  cowplot::plot_grid(plot_count_moon, plot_size_moon, ncol = 1, align = "hv")
+  
+}
