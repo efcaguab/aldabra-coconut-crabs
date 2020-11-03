@@ -26,6 +26,34 @@ model_reproduction <- function(crab_tbl, collection_event){
        pred = m_e_p) 
 }
 
+plot_ovigerus_size <- function(crab_tbl){
+  require(ggplot2)
+  
+  d <- crab_tbl %>%
+    dplyr::filter(sex == "female") %>%
+    dplyr::mutate(egg = grepl("gg", comments) & !grepl("Dragging", comments))
+  
+  min_ovigerus_size <- d %>%
+    dplyr::filter(egg) %$%
+    min(t_length)
+  
+  d %>%
+    dplyr::filter(egg) %>%
+    ggplot(aes(x = t_length, fill = egg)) +
+    geom_histogram(binwidth = 1, position = "identity", fill = "grey90") +
+    # scale_fill_manual(values = c("grey90", "purple")) +
+    # geom_vline(xintercept = min_ovigerus_size, size = 0.25, linetype = 2) +
+    pub_theme() +
+    theme(strip.background = element_blank(),
+          # plot.margin = grid::unit(c(0,-0.7, 0.4, 0.4), "lines"),
+          legend.position = "top", 
+          legend.title = element_blank(), 
+          legend.key.width = grid::unit(1, "lines"), 
+          legend.key.height = grid::unit(0.1, "lines")) +
+    labs(x = "thoracic length [mm]")
+     # facet_grid(egg~., scales = "free_y", space = "free_y")
+}
+
 plot_reproduction <- function(reproduction_models){
   require(ggplot2)
   m_e <- reproduction_models

@@ -47,6 +47,7 @@ models_plan <- drake_plan(
   moon_count_size_fig = plot_moon_counts_size(count_models, size_models), 
   moon_count_size_data_fig = plot_moon_data(count_models, size_models),
   size_distribution_fig = plot_size_distribution(crab_tbl), 
+  ovigerus_size_fig = plot_ovigerus_size(crab_tbl),
   moult_fig = plot_moulting(moult_models), 
   moult_data_fig = plot_moulting_data(moult_models)
 )
