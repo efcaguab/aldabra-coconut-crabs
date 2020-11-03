@@ -84,13 +84,18 @@ manuscript_plan <- drake_plan(
   report = target(rmarkdown::render(knitr_in("reports/manuscript stats.Rmd")))
 )
 
+other_outputs <- drake_plan(
+  egg_table = save_all_ovigorous_details(crab_tbl, file_out("data/processed/egg_carrying.csv")),
+)
+
 project_plan <- rbind(
   data_preprocessing_plan, 
   habitat_plan,
   models_plan, 
   density_plan,
   save_figures_plan, 
-  manuscript_plan
+  manuscript_plan, 
+  other_outputs
 )
 
 # RUN PROJECT --------------------------------------------------------------

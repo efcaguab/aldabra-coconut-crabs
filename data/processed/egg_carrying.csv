@@ -1,0 +1,15 @@
+number,col_id,locality,distance,resight,mark,t_length,tt_length,rostrum_length,width,weight,c_weight,moult,comments,a_comments,morph_name,morph,moult_name,sex,egg
+463,33,20,NA,FALSE,P0390,23.5,NA,NA,NA,230,145,1,Carrying eggs,,orange,O,newly moulted,female,TRUE
+485,33,34,NA,FALSE,P0371,30,NA,NA,NA,395,310,2,Carrying eggs,,orange,O,recent moult,female,TRUE
+536,35,14,2,FALSE,,36,NA,NA,NA,570,570,1,eggs,,orange,O,newly moulted,female,TRUE
+2471,179,38,1,FALSE,,27.8999996,NA,NA,NA,NA,NA,2,with eggs,,orange,O,recent moult,female,TRUE
+2509,183,36,1,FALSE,,29.1000004,NA,NA,NA,NA,NA,1,With eggs,,blue,B,newly moulted,female,TRUE
+3122,219,37,0,FALSE,,26.7999992,NA,NA,NA,NA,NA,2,eggs,,blue,B,recent moult,female,TRUE
+8470,518,22,0,FALSE,,32,NA,NA,NA,NA,NA,4,eggs,,blue,B,very old moult,female,TRUE
+4910,325,37,5,FALSE,,30,NA,NA,NA,NA,NA,1,carrying eggs,,orange,O,newly moulted,female,TRUE
+4923,326,22,2,FALSE,,31,NA,NA,NA,NA,NA,1,carrying eggs,,orange,O,newly moulted,female,TRUE
+4785,321,10,1,FALSE,,25.5,NA,NA,NA,NA,NA,2,Eggs,,orange,O,recent moult,female,TRUE
+4921,326,22,2,FALSE,,39,NA,NA,NA,NA,NA,1,carrying aggs,,orange,O,newly moulted,female,TRUE
+6879,416,8,1,FALSE,,28,NA,NA,NA,NA,NA,2,Carrying eggs,,orange,O,recent moult,female,TRUE
+5785,363,33,4,FALSE,,27,NA,NA,NA,NA,NA,2,female with egg and dark tinge of orange,,hybrid/unkown,U,recent moult,female,TRUE
+5803,364,39,1,FALSE,,26,NA,NA,NA,NA,NA,2,Carrying eggs,,orange,O,recent moult,female,TRUE

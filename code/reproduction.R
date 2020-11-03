@@ -96,3 +96,11 @@ plot_reproduction <- function(reproduction_models){
   
   # ggplot2::ggsave("figs/reproduction.pdf", width = 3.18, height = 4.5/2)
 }
+
+save_all_ovigorous_details <- function(crab_tbl, out_path){
+  crab_tbl %>%
+    dplyr::filter(sex == "female") %>%
+    dplyr::mutate(egg = grepl("gg", comments) & !grepl("Dragging", comments)) %>%
+    dplyr::filter(egg) %>%
+    readr::write_csv(out_path)
+}
