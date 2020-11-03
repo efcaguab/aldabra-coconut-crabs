@@ -1,0 +1,10 @@
+version: '3.3'
+services:
+  r-penang-catch:
+    build: .
+    ports:
+      - "8793:8787"
+    volumes:
+      - .:/home/rstudio/aldabra-coconut-crabs
+    environment: 
+      DISABLE_AUTH: "true"
