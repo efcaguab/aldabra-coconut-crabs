@@ -26,6 +26,44 @@ model_size <- function(crab_master_df, n = 362/2){
        pred = size_model_plots)
 }
 
+compare_size_models <- function(crab_master_df, n = 362/2){
+  crab_master_df %<>%
+    dplyr::filter(!(area == "CP" & as.numeric(locality) <= 12))
+  
+  sexes <- c("female", "male")
+  formulas <- list(all = formula(t_length ~ 
+                             s(month, bs = c("cc"), k = 12) +
+                             s(dist_shore, k = 3, bs = "tp") + 
+                             ti(month, dist_shore, k = c(12, 3), bs = c("cc", "tp")) +
+                             s(moon_ph, bs = "cc", k = 5)), 
+                   no_moon = formula(t_length ~ 
+                                       s(month, bs = c("cc"), k = 12) +
+                                       s(dist_shore, k = 3, bs = "tp") + 
+                                       ti(month, dist_shore, k = c(12, 3), bs = c("cc", "tp"))), 
+                   no_month = formula(t_length ~ 
+                                        s(dist_shore, k = 3, bs = "tp") + 
+                                        s(moon_ph, bs = "cc", k = 5)), 
+                   no_distance = formula(t_length ~ 
+                                           s(month, bs = c("cc"), k = 12) +
+                                           s(moon_ph, bs = "cc", k = 5)))
+  
+  data <- crab_master_df %>%
+    split(.$sex)
+  
+  aics <- purrr::cross2(data, formulas) %>%
+    purrr::map(function(x){
+      mgcv::gam(x[[2]], 
+                data = x[[1]], 
+                gamma = 1.4)
+    }) %>%
+    purrr::map_dbl(AIC)
+  
+  purrr::cross2(names(data), names(formulas)) %>%
+    purrr::map_dfr(~tibble::tibble(sex = .[[1]], variables = .[[2]])) %>%
+    dplyr::mutate(aic = aics)
+}
+
+
 plot_size_distribution <- function(crab_tbl){
   require(ggplot2)
   colour_scale <- colour_scale()
@@ -34,7 +72,7 @@ plot_size_distribution <- function(crab_tbl){
     dplyr::select(sex, t_length) %>% 
     dplyr::filter(!is.na(sex)) %>% 
     dplyr::mutate(row_n = 1:nrow(.), 
-                  sex = if_else(sex == "male", 
+                  sex = dplyr::if_else(sex == "male", 
                                 true = "Male crabs", false = "Female crabs")) 
   
   size_means <- size_data %>%
