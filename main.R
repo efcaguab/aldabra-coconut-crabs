@@ -75,7 +75,8 @@ save_figures_plan <- drake_plan(
   ggplot2::ggsave(file_out("figs/size_distribution.tiff"), size_distribution_fig, width = 3.18, height = 4.5/2),
   ggplot2::ggsave(file_out("figs/moulting.tiff"), moult_fig, width = 3.18, height = 4.5/2),
   ggplot2::ggsave(file_out("figs/moulting_data.tiff"), moult_data_fig, width = 3.18 * 2, height = 4.5/2),
-  ggplot2::ggsave(file_out("figs/reproduction.tiff"), reproduction_fig, width = 3.18, height = 4.5/2)
+  ggplot2::ggsave(file_out("figs/reproduction.tiff"), reproduction_fig, width = 3.18, height = 4.5/2), 
+  ggplot2::ggsave(file_out("figs/ovigerous_size.tiff"), ovigerus_size_fig, width = 3.18, height = 4.5/2)
 )
 
 manuscript_plan <- drake_plan(
