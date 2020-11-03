@@ -80,7 +80,8 @@ save_figures_plan <- drake_plan(
 )
 
 manuscript_plan <- drake_plan(
-  rmarkdown::render(knitr_in("paper/supp_info.Rmd"))
+  supp_info = target(rmarkdown::render(knitr_in("paper/supp_info.Rmd"))), 
+  report = target(rmarkdown::render(knitr_in("reports/manuscript stats.Rmd")))
 )
 
 project_plan <- rbind(
@@ -88,7 +89,8 @@ project_plan <- rbind(
   habitat_plan,
   models_plan, 
   density_plan,
-  save_figures_plan
+  save_figures_plan, 
+  manuscript_plan
 )
 
 # RUN PROJECT --------------------------------------------------------------

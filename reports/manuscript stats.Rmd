@@ -1,0 +1,55 @@
+---
+title: "Stats"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+```
+
+## Load data
+
+```{r}
+drake::loadd(crab_tbl)
+drake::loadd(crab_master_df)
+
+```
+
+## Sex ratio adults
+
+```{r}
+crab_tbl %>%
+  dplyr::filter(t_length >= 28 & sex == "male" | t_length >= 23.5 & sex == "female") %>%
+  dplyr::count(sex)
+```
+
+## Colour morph ratio
+
+```{r}
+(morph_contingency_table <- crab_master_df %>%
+  dplyr::filter(grepl("Picard", area_name), 
+                morph_name %in% c("blue", "orange")) %$%
+  table(morph_name, area_name))
+
+morph_contingency_table %>%
+  chisq.test()
+```
+
+## Model tables
+
+```{r}
+drake::loadd(model_size_comparison)
+drake::loadd(count_model_comparison)
+
+aic_table <- . %>%
+  dplyr::group_by(sex) %>%
+  dplyr::mutate(delta_aic = aic - min(aic))%>%
+  dplyr::select(-aic) %>%
+  tidyr::spread(sex, delta_aic)
+
+aic_table(model_size_comparison )
+aic_table(count_model_comparison)
+
+```
+
