@@ -431,3 +431,45 @@ plot_density <- function(density_models){
 
   cowplot::plot_grid(pd2, pd1, ncol = 1, align = "hv")
 }
+
+
+get_density_selection_table <- function(detectability_abundance_model){
+
+  purrr::pmap(
+    detectability_abundance_model, 
+    function(...){
+      models <- list(...)
+      unmarked::modSel(unmarked::fitList(fits = models[1:4]), nullmod = "abu3")@Full} %>%
+      tibble::rownames_to_column(var = "m")) %>%
+    purrr::imap_dfr(~ dplyr::mutate(.x, date = .y))
+}
+
+plot_density_models_aic <- function(model_comparison){
+  
+  require(ggplot2)
+  
+  model_comparison %>% 
+    dplyr::mutate(model = forcats::fct_reorder(model, delta)) %>%
+    ggplot(aes(x = delta)) +
+    geom_histogram(binwidth = 1) +
+    facet_grid(rows = vars(formula)) +
+    pub_theme() +
+    labs(x = "∆ AIC", 
+         title = "Delta AIC")
+}
+
+
+plot_density_models_rsquared <- function(model_comparison){
+  
+  require(ggplot2)
+  
+  model_comparison %>% 
+    dplyr::filter(model != "abu3") %>%
+    dplyr::mutate(model = forcats::fct_reorder(model, Rsq)) %>%
+    ggplot(aes(x = Rsq)) +
+    geom_histogram(binwidth = 0.01) +
+    facet_grid(rows = vars(formula)) +
+    pub_theme() +
+    labs(x = "R-squared", 
+         title = "Nagelkerke's (1991) R-squared index")
+}

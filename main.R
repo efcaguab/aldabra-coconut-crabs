@@ -63,7 +63,11 @@ density_plan <- drake_plan(
   abundance_from_density_model_plot = plot_abundance_from_density_model(abundance_per_day), 
   density_models = model_density(abundance_per_day, collection_event), 
   density_fig = plot_density(density_models), 
-  reproduction_fig = plot_reproduction(reproduction_models)
+  reproduction_fig = plot_reproduction(reproduction_models), 
+  density_selection_table = get_density_selection_table(detectability_abundance_model),
+  density_models_aic_fig = plot_density_models_aic(density_selection_table),
+  density_models_aic_rsquared = plot_density_models_rsquared(density_selection_table)
+
 )
 
 save_figures_plan <- drake_plan(
@@ -76,7 +80,9 @@ save_figures_plan <- drake_plan(
   ggplot2::ggsave(file_out("figs/moulting.tiff"), moult_fig, width = 3.18, height = 4.5/2),
   ggplot2::ggsave(file_out("figs/moulting_data.tiff"), moult_data_fig, width = 3.18 * 2, height = 4.5/2),
   ggplot2::ggsave(file_out("figs/reproduction.tiff"), reproduction_fig, width = 3.18, height = 4.5/2), 
-  ggplot2::ggsave(file_out("figs/ovigerous_size.tiff"), ovigerus_size_fig, width = 3.18, height = 4.5/2)
+  ggplot2::ggsave(file_out("figs/ovigerous_size.tiff"), ovigerus_size_fig, width = 3.18, height = 4.5/2),
+  ggplot2::ggsave(file_out("figs/density_deltaaic.tiff"), density_models_aic_fig, width = 3.18 * 2, height = 4.5),
+  ggplot2::ggsave(file_out("figs/density_rsquared.tiff"), density_models_aic_rsquared, width = 3.18 * 2, height = 4.5)
 )
 
 manuscript_plan <- drake_plan(

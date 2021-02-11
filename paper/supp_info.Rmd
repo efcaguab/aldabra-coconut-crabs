@@ -1,11 +1,14 @@
 ---
 title: "Supplementary Information"
 output: word_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 library(magrittr)
+library(ggplot2)
 ```
 
 ## Density models
@@ -75,3 +78,4 @@ summary(size_models[[1]][[1]])
 ```{r}
 summary(size_models[[1]][[2]])
 ```
+
