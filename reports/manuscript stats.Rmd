@@ -34,6 +34,13 @@ crab_tbl %>%
 
 morph_contingency_table %>%
   chisq.test()
+
+(morph_contingency_table_sex <- crab_master_df %>%
+  dplyr::filter(morph_name %in% c("blue", "orange")) %$%
+  table(morph_name, sex))
+
+morph_contingency_table_sex %>%
+  chisq.test()
 ```
 
 ## Model tables
