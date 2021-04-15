@@ -1,6 +1,6 @@
 version: '3.3'
 services:
-  r-penang-catch:
+  r:
     build: .
     ports:
       - "8793:8787"
